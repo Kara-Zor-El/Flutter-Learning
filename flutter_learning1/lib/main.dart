@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MyNewApp());
-}
+void main() => runApp((MyApp()));
 
-class MyNewApp extends StatelessWidget {
+class MyApp extends StatelessWidget {
+  @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: Text('Hello!!!'));
+    return MaterialApp(
+        home: Scaffold(
+            appBar: AppBar(
+              backgroundColor: Color.fromARGB(255, 255, 83, 0),
+              title: Text('My First App!'),
+            ),
+            body: Text('Oh wow an app.')));
   }
 }
