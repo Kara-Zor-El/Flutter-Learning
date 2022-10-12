@@ -1,8 +1,26 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 
 void main() => runApp((MyApp()));
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return MyAppState();
+  }
+}
+
+class MyAppState extends State<MyApp> {
+  var qIndex = 0;
+
+  void answerQuestion() {
+    setState(() {
+      qIndex++;
+    });
+    print("An answer has been chosen!");
+  }
+
   @override
   Widget build(BuildContext context) {
     var questions = [
@@ -17,19 +35,21 @@ class MyApp extends StatelessWidget {
           title: const Text('My First App!'),
         ),
         body: Column(
-          children: const [
-            Text('Yep yep text'),
+          children: [
+            Text(questions[qIndex]),
             ElevatedButton(
               child: Text('First'),
-              onPressed: null,
+              onPressed: answerQuestion,
             ),
             ElevatedButton(
               child: Text('Second'),
-              onPressed: null,
+              onPressed: () => print("Yep that is the second answer"),
             ),
             ElevatedButton(
               child: Text('Third'),
-              onPressed: null,
+              onPressed: () {
+                print("Nice, you pressed the third button");
+              },
             ),
           ],
         ),
