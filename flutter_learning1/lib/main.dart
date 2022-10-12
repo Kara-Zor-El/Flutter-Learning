@@ -10,6 +10,7 @@ class MyApp extends StatelessWidget {
       'What\'s your favorite animal?',
     ];
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: const Color.fromARGB(255, 255, 83, 0),
@@ -18,7 +19,18 @@ class MyApp extends StatelessWidget {
         body: Column(
           children: const [
             Text('Yep yep text'),
-            //FloatingActionButton(onPressed: onPressed)
+            ElevatedButton(
+              child: Text('First'),
+              onPressed: null,
+            ),
+            ElevatedButton(
+              child: Text('Second'),
+              onPressed: null,
+            ),
+            ElevatedButton(
+              child: Text('Third'),
+              onPressed: null,
+            ),
           ],
         ),
       ),
