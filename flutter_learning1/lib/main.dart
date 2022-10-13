@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import './question.dart';
 import './answer.dart';
@@ -28,8 +30,18 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     var questions = [
-      'What\'s your favorite color?',
-      'What\'s your favorite animal?',
+      {
+        'questionText': 'What\'s your favorite color?',
+        'answers': ['Blue', 'Red', 'Green', 'Yellow']
+      },
+      {
+        'questionText': 'What\'s your favorite animal?',
+        'answers': ['Tiger', 'Dog', 'Cat', 'Elephant', 'Monkey']
+      },
+      {
+        'questionText': 'Who\'s your favorite programmer?',
+        'answers': ['Parsa', 'Parsa', 'Parsa']
+      },
     ];
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -41,11 +53,11 @@ class _MyAppState extends State<MyApp> {
         body: Column(
           children: [
             Question(
-              questions[_qIndex],
+              questions[_qIndex]['questionText'].toString(),
             ),
-            Answer(_answerQuestion),
-            Answer(_answerQuestion),
-            Answer(_answerQuestion),
+            ...(questions[_qIndex]['answers'] as List<String>).map((answer) {
+              return Answer(_answerQuestion, answer);
+            }).toList()
           ],
         ),
       ),
