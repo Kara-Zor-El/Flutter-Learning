@@ -3,8 +3,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import './question.dart';
-import './answer.dart';
+import './quiz.dart';
+import './result.dart';
 
 void main() => runApp((MyApp()));
 
@@ -18,24 +18,42 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final questions = const [
+  final _questions = const [
     {
       'questionText': 'What\'s your favorite color?',
-      'answers': ['Blue', 'Red', 'Green', 'Yellow']
+      'answers': [
+        {'text': 'Blue', 'score': 1},
+        {'text': 'Red', 'score': 4},
+        {'text': 'Green', 'score': 2},
+        {'text': 'Black', 'score': 10}
+      ]
     },
     {
       'questionText': 'What\'s your favorite animal?',
-      'answers': ['Tiger', 'Dog', 'Cat', 'Elephant', 'Monkey']
+      'answers': [
+        {'text': 'Tiger', 'score': 4},
+        {'text': 'Dog', 'score': 1},
+        {'text': 'Cat', 'score': 0},
+        {'text': 'Elephant', 'score': 5},
+        {'text': 'Monkey', 'score': 8}
+      ]
     },
     {
       'questionText': 'Who\'s your favorite programmer?',
-      'answers': ['Parsa', 'Parsa', 'Parsa']
+      'answers': [
+        {'text': 'Parsa', 'score': 0},
+        {'text': 'Parsa', 'score': 0},
+        {'text': 'Parsa', 'score': 0}
+      ]
     },
   ];
 
   var _qIndex = 0;
+  var _totalScore = 0;
 
-  void _answerQuestion() {
+  void _answerQuestion(int score) {
+    _totalScore += score;
+
     setState(() {
       _qIndex++;
     });
@@ -51,21 +69,9 @@ class _MyAppState extends State<MyApp> {
           backgroundColor: const Color.fromARGB(255, 255, 83, 0),
           title: const Text('My First App!'),
         ),
-        body: _qIndex < questions.length
-            ? Column(
-                children: [
-                  Question(
-                    questions[_qIndex]['questionText'].toString(),
-                  ),
-                  ...(questions[_qIndex]['answers'] as List<String>)
-                      .map((answer) {
-                    return Answer(_answerQuestion, answer);
-                  }).toList()
-                ],
-              )
-            : Center(
-                child: Text('You did it! You\'re done!'),
-              ),
+        body: _qIndex < _questions.length
+            ? Quiz(_answerQuestion, _questions, _qIndex)
+            : Result(),
       ),
     );
   }
