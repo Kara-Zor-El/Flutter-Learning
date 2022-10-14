@@ -1,13 +1,13 @@
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 
 class Result extends StatelessWidget {
   final int finalScore;
-  Result(this.finalScore);
+  final VoidCallback resetQuiz;
+
+  Result(this.finalScore, this.resetQuiz);
 
   String get resultPhrase {
-    var resultText = '';
+    String resultText;
     if (finalScore <= 4) {
       resultText = 'You\'re pretty standard';
     } else if (finalScore < 8) {
@@ -21,10 +21,19 @@ class Result extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        child: Text(
-          resultPhrase,
-          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-        ),
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 100));
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 100),
+      child: Column(
+        children: [
+          Text(
+            resultPhrase,
+            style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+          ),
+          TextButton(
+            onPressed: resetQuiz,
+            child: Text('Restart Quiz'),
+          ),
+        ],
+      ),
+    );
   }
 }

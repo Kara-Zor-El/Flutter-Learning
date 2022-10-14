@@ -60,6 +60,13 @@ class _MyAppState extends State<MyApp> {
     print("An answer has been chosen!");
   }
 
+  void _reset() {
+    setState(() {
+      _qIndex = 0;
+      _totalScore = 0;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -67,11 +74,11 @@ class _MyAppState extends State<MyApp> {
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: const Color.fromARGB(255, 255, 83, 0),
-          title: const Text('My First App!'),
+          title: const Text('My First App! A personality quiz'),
         ),
         body: _qIndex < _questions.length
             ? Quiz(_answerQuestion, _questions, _qIndex)
-            : Result(_totalScore),
+            : Result(_totalScore, _reset),
       ),
     );
   }
