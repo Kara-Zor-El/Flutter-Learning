@@ -22,7 +22,7 @@ class _MyAppState extends State<MyApp> {
     {
       'questionText': 'What\'s your favorite color?',
       'answers': [
-        {'text': 'Blue', 'score': 1},
+        {'text': 'Blue', 'score': 2},
         {'text': 'Red', 'score': 4},
         {'text': 'Green', 'score': 2},
         {'text': 'Black', 'score': 10}
@@ -32,8 +32,8 @@ class _MyAppState extends State<MyApp> {
       'questionText': 'What\'s your favorite animal?',
       'answers': [
         {'text': 'Tiger', 'score': 4},
-        {'text': 'Dog', 'score': 1},
-        {'text': 'Cat', 'score': 0},
+        {'text': 'Dog', 'score': 2},
+        {'text': 'Cat', 'score': 1},
         {'text': 'Elephant', 'score': 5},
         {'text': 'Monkey', 'score': 8}
       ]
@@ -41,9 +41,9 @@ class _MyAppState extends State<MyApp> {
     {
       'questionText': 'Who\'s your favorite programmer?',
       'answers': [
-        {'text': 'Parsa', 'score': 0},
-        {'text': 'Parsa', 'score': 0},
-        {'text': 'Parsa', 'score': 0}
+        {'text': 'Parsa', 'score': 1},
+        {'text': 'Parsa', 'score': 1},
+        {'text': 'Parsa', 'score': 1}
       ]
     },
   ];
@@ -71,7 +71,7 @@ class _MyAppState extends State<MyApp> {
         ),
         body: _qIndex < _questions.length
             ? Quiz(_answerQuestion, _questions, _qIndex)
-            : Result(),
+            : Result(_totalScore),
       ),
     );
   }
