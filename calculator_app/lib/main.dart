@@ -77,18 +77,27 @@ class _CalculatorState extends State<Calculator> {
       newString = calculateString(s);
     }
     setState(() {
-      displayString = newString;
+      displayString = "= $newString";
     });
   }
 
   String calculateString(String s) {
     if (s.contains("(")) {
+      int startingIndex = s.indexOf("(");
+      int endingIndex = s.indexOf(")");
+      String formula = s.substring(startingIndex + 1, endingIndex);
+      formula = calculateString(formula);
+      return calculateString((endingIndex + 1 != s.length)
+          ? s.substring(0, startingIndex) +
+              formula +
+              s.substring(endingIndex + 1)
+          : s.substring(0, startingIndex) + formula);
     } else if (s.contains("÷")) {
     } else if (s.contains("x")) {
     } else if (s.contains("+")) {
     } else if (s.contains("-")) {}
 
-    return "= $s";
+    return s;
   }
 
   bool checkForErrors(String s) {
@@ -123,12 +132,11 @@ class _CalculatorState extends State<Calculator> {
               border: Border.all(width: 2),
               borderRadius: const BorderRadius.all(Radius.circular(10)),
             ),
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
               child: Text(
+                style: const TextStyle(fontSize: 30),
                 displayString,
-                style:
-                    const TextStyle(fontSize: 30, fontWeight: FontWeight.w400),
               ),
             ),
           ),
