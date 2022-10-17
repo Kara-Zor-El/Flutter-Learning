@@ -88,7 +88,7 @@ class _CalculatorState extends State<Calculator> {
     } else if (s.contains("+")) {
     } else if (s.contains("-")) {}
 
-    return "Result: " + s;
+    return "= $s";
   }
 
   bool checkForErrors(String s) {
@@ -127,7 +127,8 @@ class _CalculatorState extends State<Calculator> {
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Text(
                 displayString,
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.w400),
+                style:
+                    const TextStyle(fontSize: 30, fontWeight: FontWeight.w400),
               ),
             ),
           ),
@@ -151,25 +152,25 @@ class _CalculatorState extends State<Calculator> {
                 ),
                 Row(
                   children: [
-                    buttonConstructor(text: "7", pV: 10, mT: 15),
-                    buttonConstructor(text: "8", pV: 10, mT: 15),
-                    buttonConstructor(text: "9", pV: 10, mT: 15),
+                    buttonConstructor(text: "7", pV: 13, mT: 15),
+                    buttonConstructor(text: "8", pV: 13, mT: 15),
+                    buttonConstructor(text: "9", pV: 13, mT: 15),
                     buttonConstructor(text: "-", pH: 32, pV: 20),
                   ],
                 ),
                 Row(
                   children: [
-                    buttonConstructor(text: "4", pV: 10, mT: 15),
-                    buttonConstructor(text: "5", pV: 10, mT: 15),
-                    buttonConstructor(text: "6", pV: 10, mT: 15),
+                    buttonConstructor(text: "4", pV: 13, mT: 15),
+                    buttonConstructor(text: "5", pV: 13, mT: 15),
+                    buttonConstructor(text: "6", pV: 13, mT: 15),
                     buttonConstructor(text: "+", pH: 30, pV: 20),
                   ],
                 ),
                 Row(
                   children: [
-                    buttonConstructor(text: "1", pV: 10, mT: 15),
-                    buttonConstructor(text: "2", pV: 10, mT: 15),
-                    buttonConstructor(text: "3", pV: 10, mT: 15),
+                    buttonConstructor(text: "1", pV: 13, mT: 15),
+                    buttonConstructor(text: "2", pV: 13, mT: 15),
+                    buttonConstructor(text: "3", pV: 13, mT: 15),
                     buttonConstructor(
                         text: "=", pH: 30, pV: 20, isEquals: true),
                   ],
