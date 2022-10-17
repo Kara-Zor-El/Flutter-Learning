@@ -47,7 +47,7 @@ class _CalculatorState extends State<Calculator> {
         onPressed: !isEquals && !isCE
             ? () => addToString(text)
             : isEquals
-                ? null
+                ? () => calculateSequence(displayString)
                 : () => clearEverything(),
         child: Text(
           style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
@@ -67,6 +67,45 @@ class _CalculatorState extends State<Calculator> {
     setState(() {
       displayString = "";
     });
+  }
+
+  void calculateSequence(String s) {
+    String newString = s;
+    if (!checkForErrors(s)) {
+      newString = "Error! Try again.";
+    } else {
+      newString = calculateString(s);
+    }
+    setState(() {
+      displayString = newString;
+    });
+  }
+
+  String calculateString(String s) {
+    if (s.contains("(")) {
+    } else if (s.contains("÷")) {
+    } else if (s.contains("x")) {
+    } else if (s.contains("+")) {
+    } else if (s.contains("-")) {}
+
+    return "Result: " + s;
+  }
+
+  bool checkForErrors(String s) {
+    int counter = 0;
+    for (int i = 0; i < s.length; i++) {
+      if (s[i] == '(') {
+        counter++;
+      } else if (s[i] == ')') {
+        counter--;
+      }
+      if (counter < 0) break;
+    }
+    if (counter != 0) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   @override
