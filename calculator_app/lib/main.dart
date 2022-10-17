@@ -57,7 +57,17 @@ class _CalculatorState extends State<Calculator> {
     );
   }
 
+  ScrollController _scrollController = ScrollController();
+  _scrollToRight() {
+    _scrollController.animateTo(
+      _scrollController.position.maxScrollExtent,
+      duration: Duration(milliseconds: 1),
+      curve: Curves.easeOut,
+    );
+  }
+
   void addToString(String s) {
+    _scrollToRight();
     setState(() {
       displayString += s;
     });
@@ -134,6 +144,7 @@ class _CalculatorState extends State<Calculator> {
             ),
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
+              controller: _scrollController,
               child: Text(
                 style: const TextStyle(fontSize: 30),
                 displayString,
