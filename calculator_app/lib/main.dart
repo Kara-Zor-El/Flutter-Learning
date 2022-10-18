@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Best Calculator!',
       theme: ThemeData(primarySwatch: Colors.cyan),
-      home: Calculator(),
+      home: const Calculator(),
     );
   }
 }
@@ -81,8 +81,9 @@ class _CalculatorState extends State<Calculator> {
 
   void calculateSequence(String s) {
     String newString = s;
-    if (!checkForErrors(s)) {
-      newString = "Error! Try again.";
+    String error = checkForErrors(s);
+    if (error != "FALSE") {
+      newString = error;
     } else {
       newString = calculateString(s);
     }
@@ -110,9 +111,10 @@ class _CalculatorState extends State<Calculator> {
     return s;
   }
 
-  bool checkForErrors(String s) {
+  String checkForErrors(String s) {
     int counter = 0;
     for (int i = 0; i < s.length; i++) {
+      // Check for invalid brackets
       if (s[i] == '(') {
         counter++;
       } else if (s[i] == ')') {
@@ -121,17 +123,24 @@ class _CalculatorState extends State<Calculator> {
       if (counter < 0) break;
     }
     if (counter != 0) {
-      return false;
-    } else {
-      return true;
+      return "Invalid Brackets. Try again";
     }
+
+    for (int i = 0; i < s.length - 1; i++) {
+      // Check for closing bracket next to opening bracket.
+      if (s[i] == ')' && s[i + 1] == '(' || s[i] == '(' && s[i + 1] == ')') {
+        return "Two brackets next to each other is not allowed.";
+      }
+    }
+
+    return "FALSE";
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Awesome Calculator'),
+        title: const Text('Awesome Calculator!'),
       ),
       body: Column(
         children: [
@@ -145,6 +154,7 @@ class _CalculatorState extends State<Calculator> {
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               controller: _scrollController,
+              padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
               child: Text(
                 style: const TextStyle(fontSize: 30),
                 displayString,
@@ -153,7 +163,7 @@ class _CalculatorState extends State<Calculator> {
           ),
           Container(
             alignment: Alignment.center,
-            margin: const EdgeInsets.fromLTRB(20, 125, 20, 0),
+            margin: const EdgeInsets.fromLTRB(20, 120, 20, 0),
             padding: const EdgeInsets.only(bottom: 15),
             decoration: BoxDecoration(
               border: Border.all(width: 2),
