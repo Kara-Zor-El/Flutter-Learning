@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -96,21 +98,41 @@ class _CalculatorState extends State<Calculator> {
     if (s.contains("(")) {
       int startingIndex = s.indexOf("(");
       int endingIndex = s.indexOf(")");
-      String formula = s.substring(startingIndex + 1, endingIndex);
-      formula = calculateString(formula);
+      String equation = s.substring(startingIndex + 1, endingIndex);
+      equation = calculateString(equation);
       return calculateString((endingIndex + 1 != s.length)
           ? s.substring(0, startingIndex) +
-              formula +
+              equation +
               s.substring(endingIndex + 1)
-          : s.substring(0, startingIndex) + formula);
+          : s.substring(0, startingIndex) + equation);
     } else if (s.contains("÷")) {
+      RegExp firstDiv = RegExp(r'((\d+\.)?\d+÷\d+(\.\d+)?)');
+      var equationMatch = firstDiv.firstMatch(s);
+      var equation = s.substring(equationMatch!.start, equationMatch.end);
+      int symbolIndex = equation.indexOf('÷');
+      int firstNum = int.parse(equation.substring(0, symbolIndex));
+      int secondNum = int.parse(equation.substring(symbolIndex + 1));
+      return calculateString(s.substring(0, s.indexOf(equation)) +
+          (firstNum / secondNum).toString() +
+          s.substring(s.indexOf(equation) + equation.length));
     } else if (s.contains("x")) {
+      RegExp firstMul = RegExp(r'((\d+\.)?\d+x\d+(\.\d+)?)');
+      var equationMatch = firstMul.firstMatch(s);
+      var equation = s.substring(equationMatch!.start, equationMatch.end);
+      print(equation);
+      int symbolIndex = equation.indexOf('x');
+      double firstNum = double.parse(equation.substring(0, symbolIndex));
+      double secondNum = double.parse(equation.substring(symbolIndex + 1));
+      return calculateString(s.substring(0, s.indexOf(equation)) +
+          (firstNum * secondNum).toString() +
+          s.substring(s.indexOf(equation) + equation.length));
     } else if (s.contains("+")) {
     } else if (s.contains("-")) {}
 
     return s;
   }
 
+  RegExp isSymbol = RegExp(r'[÷x+]');
   String checkForErrors(String s) {
     int counter = 0;
     for (int i = 0; i < s.length; i++) {
@@ -130,6 +152,9 @@ class _CalculatorState extends State<Calculator> {
       // Check for closing bracket next to opening bracket.
       if (s[i] == ')' && s[i + 1] == '(' || s[i] == '(' && s[i + 1] == ')') {
         return "Two brackets next to each other is not allowed.";
+      }
+      if (isSymbol.hasMatch(s[i]) && isSymbol.hasMatch(s[i + 1])) {
+        return "Two symbols next to each other is not allowed.";
       }
     }
 
