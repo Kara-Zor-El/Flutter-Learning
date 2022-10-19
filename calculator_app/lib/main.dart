@@ -112,6 +112,7 @@ class _CalculatorState extends State<Calculator> {
         }
       }
       String equation = s.substring(startingIndex + 1, endingIndex);
+      print(equation);
       equation = calculateString(equation);
       return calculateString((endingIndex + 1 != s.length)
           ? s.substring(0, startingIndex) +
@@ -120,46 +121,16 @@ class _CalculatorState extends State<Calculator> {
           : s.substring(0, startingIndex) + equation);
     } else if (s.contains("÷")) {
       RegExp firstDiv = RegExp(r'((\d+\.)?\d+÷\d+(\.\d+)?)');
-      var equationMatch = firstDiv.firstMatch(s);
-      var equation = s.substring(equationMatch!.start, equationMatch.end);
-      print(equation);
-      int symbolIndex = equation.indexOf('÷');
-      double firstNum = double.parse(equation.substring(0, symbolIndex));
-      double secondNum = double.parse(equation.substring(symbolIndex + 1));
-      return calculateString(s.substring(0, s.indexOf(equation)) +
-          (firstNum / secondNum).toString() +
-          s.substring(s.indexOf(equation) + equation.length));
+      return calculateString(returnAnswer('÷', firstDiv, s));
     } else if (s.contains("x")) {
       RegExp firstMul = RegExp(r'((\d+\.)?\d+x\d+(\.\d+)?)');
-      var equationMatch = firstMul.firstMatch(s);
-      var equation = s.substring(equationMatch!.start, equationMatch.end);
-      int symbolIndex = equation.indexOf('x');
-      double firstNum = double.parse(equation.substring(0, symbolIndex));
-      double secondNum = double.parse(equation.substring(symbolIndex + 1));
-      return calculateString(s.substring(0, s.indexOf(equation)) +
-          (firstNum * secondNum).toString() +
-          s.substring(s.indexOf(equation) + equation.length));
+      return calculateString(returnAnswer('x', firstMul, s));
     } else if (s.contains("+")) {
       RegExp firstPlus = RegExp(r'((\d+\.)?\d+\+\d+(\.\d+)?)');
-      var equationMatch = firstPlus.firstMatch(s);
-      var equation = s.substring(equationMatch!.start, equationMatch.end);
-      int symbolIndex = equation.indexOf('+');
-      double firstNum = double.parse(equation.substring(0, symbolIndex));
-      double secondNum = double.parse(equation.substring(symbolIndex + 1));
-      return calculateString(s.substring(0, s.indexOf(equation)) +
-          (firstNum + secondNum).toString() +
-          s.substring(s.indexOf(equation) + equation.length));
+      return calculateString(returnAnswer('+', firstPlus, s));
     } else if (s.contains("-") && !negativeAnswer.hasMatch(s)) {
       RegExp firstSub = RegExp(r'-?((\d+\.)?\d+-\d+(\.\d+)?)');
-      var equationMatch = firstSub.firstMatch(s);
-      var equation = s.substring(equationMatch!.start, equationMatch.end);
-      int symbolIndex = equation.indexOf('-');
-      double firstNum = double.parse(equation.substring(0, symbolIndex));
-      double secondNum = double.parse(equation.substring(symbolIndex + 1));
-      String answer = s.substring(0, s.indexOf(equation)) +
-          (firstNum - secondNum).toString() +
-          s.substring(s.indexOf(equation) + equation.length);
-      return calculateString(answer);
+      return calculateString(returnAnswer('-', firstSub, s));
     }
 
     if (s.length > 15) {
@@ -167,6 +138,36 @@ class _CalculatorState extends State<Calculator> {
     } else {
       return s;
     }
+  }
+
+  String returnAnswer(String operator, RegExp regex, String s) {
+    print(operator);
+    var equationMatch = regex.firstMatch(s);
+    var equation = s.substring(equationMatch!.start, equationMatch.end);
+    int symbolIndex = equation.indexOf(operator);
+    double firstNum = double.parse(equation.substring(0, symbolIndex));
+    double secondNum = double.parse(equation.substring(symbolIndex + 1));
+    String answer;
+    if (operator == '÷') {
+      answer = s.substring(0, s.indexOf(equation)) +
+          (firstNum / secondNum).toString() +
+          s.substring(s.indexOf(equation) + equation.length);
+    } else if (operator == 'x') {
+      answer = s.substring(0, s.indexOf(equation)) +
+          (firstNum * secondNum).toString() +
+          s.substring(s.indexOf(equation) + equation.length);
+    } else if (operator == '+') {
+      answer = s.substring(0, s.indexOf(equation)) +
+          (firstNum + secondNum).toString() +
+          s.substring(s.indexOf(equation) + equation.length);
+    } else if (operator == '-') {
+      answer = s.substring(0, s.indexOf(equation)) +
+          (firstNum - secondNum).toString() +
+          s.substring(s.indexOf(equation) + equation.length);
+    } else {
+      answer = "NULL";
+    }
+    return answer;
   }
 
   RegExp isSymbol = RegExp(r'[÷x+]');
