@@ -111,7 +111,6 @@ class _CalculatorState extends State<Calculator> {
           break;
         }
       }
-      print(endingIndex);
       String equation = s.substring(startingIndex + 1, endingIndex);
       equation = calculateString(equation);
       return calculateString((endingIndex + 1 != s.length)
@@ -123,9 +122,10 @@ class _CalculatorState extends State<Calculator> {
       RegExp firstDiv = RegExp(r'((\d+\.)?\d+÷\d+(\.\d+)?)');
       var equationMatch = firstDiv.firstMatch(s);
       var equation = s.substring(equationMatch!.start, equationMatch.end);
+      print(equation);
       int symbolIndex = equation.indexOf('÷');
-      int firstNum = int.parse(equation.substring(0, symbolIndex));
-      int secondNum = int.parse(equation.substring(symbolIndex + 1));
+      double firstNum = double.parse(equation.substring(0, symbolIndex));
+      double secondNum = double.parse(equation.substring(symbolIndex + 1));
       return calculateString(s.substring(0, s.indexOf(equation)) +
           (firstNum / secondNum).toString() +
           s.substring(s.indexOf(equation) + equation.length));
@@ -151,7 +151,6 @@ class _CalculatorState extends State<Calculator> {
           s.substring(s.indexOf(equation) + equation.length));
     } else if (s.contains("-") && !negativeAnswer.hasMatch(s)) {
       RegExp firstSub = RegExp(r'-?((\d+\.)?\d+-\d+(\.\d+)?)');
-      print(negativeAnswer.hasMatch(s));
       var equationMatch = firstSub.firstMatch(s);
       var equation = s.substring(equationMatch!.start, equationMatch.end);
       int symbolIndex = equation.indexOf('-');
