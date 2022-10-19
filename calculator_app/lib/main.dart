@@ -95,9 +95,23 @@ class _CalculatorState extends State<Calculator> {
   }
 
   String calculateString(String s) {
+    RegExp negativeAnswer = RegExp(r'^-\d+(\.\d+)?$');
     if (s.contains("(")) {
       int startingIndex = s.indexOf("(");
       int endingIndex = s.indexOf(")");
+      int counter = 0;
+      for (int i = startingIndex + 1; i < s.length; i++) {
+        if (s[i] == "(") {
+          counter++;
+        } else if (s[i] == ")") {
+          counter--;
+        }
+        if (counter < 0) {
+          endingIndex = i;
+          break;
+        }
+      }
+      print(endingIndex);
       String equation = s.substring(startingIndex + 1, endingIndex);
       equation = calculateString(equation);
       return calculateString((endingIndex + 1 != s.length)
@@ -119,7 +133,6 @@ class _CalculatorState extends State<Calculator> {
       RegExp firstMul = RegExp(r'((\d+\.)?\d+x\d+(\.\d+)?)');
       var equationMatch = firstMul.firstMatch(s);
       var equation = s.substring(equationMatch!.start, equationMatch.end);
-      print(equation);
       int symbolIndex = equation.indexOf('x');
       double firstNum = double.parse(equation.substring(0, symbolIndex));
       double secondNum = double.parse(equation.substring(symbolIndex + 1));
@@ -127,9 +140,34 @@ class _CalculatorState extends State<Calculator> {
           (firstNum * secondNum).toString() +
           s.substring(s.indexOf(equation) + equation.length));
     } else if (s.contains("+")) {
-    } else if (s.contains("-")) {}
+      RegExp firstPlus = RegExp(r'((\d+\.)?\d+\+\d+(\.\d+)?)');
+      var equationMatch = firstPlus.firstMatch(s);
+      var equation = s.substring(equationMatch!.start, equationMatch.end);
+      int symbolIndex = equation.indexOf('+');
+      double firstNum = double.parse(equation.substring(0, symbolIndex));
+      double secondNum = double.parse(equation.substring(symbolIndex + 1));
+      return calculateString(s.substring(0, s.indexOf(equation)) +
+          (firstNum + secondNum).toString() +
+          s.substring(s.indexOf(equation) + equation.length));
+    } else if (s.contains("-") && !negativeAnswer.hasMatch(s)) {
+      RegExp firstSub = RegExp(r'-?((\d+\.)?\d+-\d+(\.\d+)?)');
+      print(negativeAnswer.hasMatch(s));
+      var equationMatch = firstSub.firstMatch(s);
+      var equation = s.substring(equationMatch!.start, equationMatch.end);
+      int symbolIndex = equation.indexOf('-');
+      double firstNum = double.parse(equation.substring(0, symbolIndex));
+      double secondNum = double.parse(equation.substring(symbolIndex + 1));
+      String answer = s.substring(0, s.indexOf(equation)) +
+          (firstNum - secondNum).toString() +
+          s.substring(s.indexOf(equation) + equation.length);
+      return calculateString(answer);
+    }
 
-    return s;
+    if (s.length > 15) {
+      return s.substring(0, 16);
+    } else {
+      return s;
+    }
   }
 
   RegExp isSymbol = RegExp(r'[÷x+]');
