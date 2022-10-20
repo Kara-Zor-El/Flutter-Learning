@@ -112,7 +112,6 @@ class _CalculatorState extends State<Calculator> {
         }
       }
       String equation = s.substring(startingIndex + 1, endingIndex);
-      print(equation);
       equation = calculateString(equation);
       return calculateString((endingIndex + 1 != s.length)
           ? s.substring(0, startingIndex) +
@@ -141,7 +140,6 @@ class _CalculatorState extends State<Calculator> {
   }
 
   String returnAnswer(String operator, RegExp regex, String s) {
-    print(operator);
     var equationMatch = regex.firstMatch(s);
     var equation = s.substring(equationMatch!.start, equationMatch.end);
     int symbolIndex = equation.indexOf(operator);
