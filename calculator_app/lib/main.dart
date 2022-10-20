@@ -59,16 +59,21 @@ class _CalculatorState extends State<Calculator> {
     );
   }
 
-  ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
   _scrollToRight() {
     _scrollController.animateTo(
       _scrollController.position.maxScrollExtent,
-      duration: Duration(milliseconds: 1),
+      duration: const Duration(milliseconds: 1),
       curve: Curves.easeOut,
     );
   }
 
+  bool resetOnNew = false;
   void addToString(String s) {
+    if (resetOnNew == true) {
+      clearEverything();
+      resetOnNew = false;
+    }
     _scrollToRight();
     setState(() {
       displayString += s;
@@ -82,16 +87,22 @@ class _CalculatorState extends State<Calculator> {
   }
 
   void calculateSequence(String s) {
-    String newString = s;
+    String newString;
+    String oldString;
+    oldString = s;
+    newString = s;
     String error = checkForErrors(s);
     if (error != "FALSE") {
-      newString = error;
+      setState(() {
+        displayString = error;
+      });
     } else {
       newString = calculateString(s);
+      resetOnNew = true;
+      setState(() {
+        displayString = "$oldString = $newString";
+      });
     }
-    setState(() {
-      displayString = "= $newString";
-    });
   }
 
   String calculateString(String s) {
@@ -119,16 +130,16 @@ class _CalculatorState extends State<Calculator> {
               s.substring(endingIndex + 1)
           : s.substring(0, startingIndex) + equation);
     } else if (s.contains("÷")) {
-      RegExp firstDiv = RegExp(r'((\d+\.)?\d+÷\d+(\.\d+)?)');
+      RegExp firstDiv = RegExp(r'(-?)((\d+\.)?\d+÷(-?-?)\d+(\.\d+)?)');
       return calculateString(returnAnswer('÷', firstDiv, s));
     } else if (s.contains("x")) {
-      RegExp firstMul = RegExp(r'((\d+\.)?\d+x\d+(\.\d+)?)');
+      RegExp firstMul = RegExp(r'(-?)((\d+\.)?\d+x(-?-?)\d+(\.\d+)?)');
       return calculateString(returnAnswer('x', firstMul, s));
     } else if (s.contains("+")) {
-      RegExp firstPlus = RegExp(r'((\d+\.)?\d+\+\d+(\.\d+)?)');
+      RegExp firstPlus = RegExp(r'(-?)((\d+\.)?\d+\+(-?-?)\d+(\.\d+)?)');
       return calculateString(returnAnswer('+', firstPlus, s));
     } else if (s.contains("-") && !negativeAnswer.hasMatch(s)) {
-      RegExp firstSub = RegExp(r'-?((\d+\.)?\d+-\d+(\.\d+)?)');
+      RegExp firstSub = RegExp(r'(-?)((\d+\.)?\d+-(-?-?)\d+(\.\d+)?)');
       return calculateString(returnAnswer('-', firstSub, s));
     }
 
@@ -142,7 +153,16 @@ class _CalculatorState extends State<Calculator> {
   String returnAnswer(String operator, RegExp regex, String s) {
     var equationMatch = regex.firstMatch(s);
     var equation = s.substring(equationMatch!.start, equationMatch.end);
-    int symbolIndex = equation.indexOf(operator);
+    int symbolIndex;
+    if (operator == "-") {
+      RegExp midSub = RegExp(r'\d+-(-?)+\d+');
+      var firstMatch = midSub.firstMatch(equation);
+      var firstMatchString = s.substring(firstMatch!.start, firstMatch.end);
+      symbolIndex =
+          equation.indexOf(operator, equation.indexOf(firstMatchString));
+    } else {
+      symbolIndex = equation.indexOf(operator);
+    }
     double firstNum = double.parse(equation.substring(0, symbolIndex));
     double secondNum = double.parse(equation.substring(symbolIndex + 1));
     String answer;
@@ -165,11 +185,14 @@ class _CalculatorState extends State<Calculator> {
     } else {
       answer = "NULL";
     }
+
+    print("$equation in $s = $answer");
     return answer;
   }
 
-  RegExp isSymbol = RegExp(r'[÷x+]');
   String checkForErrors(String s) {
+    RegExp isSymbol = RegExp(r'[÷x+]');
+    RegExp threePlusSub = RegExp(r'---');
     int counter = 0;
     for (int i = 0; i < s.length; i++) {
       // Check for invalid brackets
@@ -192,6 +215,15 @@ class _CalculatorState extends State<Calculator> {
       if (isSymbol.hasMatch(s[i]) && isSymbol.hasMatch(s[i + 1])) {
         return "Two symbols next to each other is not allowed.";
       }
+    }
+
+    if (threePlusSub.hasMatch(s)) {
+      return "Two or more negative signs are not allowed";
+    }
+
+    if (resetOnNew) {
+      clearEverything();
+      return "No equation";
     }
 
     return "FALSE";
