@@ -262,20 +262,22 @@ class _CalculatorState extends State<Calculator> {
               ),
             ),
           ),
-          Container(
-            alignment: Alignment.center,
-            margin: const EdgeInsets.fromLTRB(20, 50, 20, 0),
-            padding: const EdgeInsets.only(bottom: 15),
-            child: GridView.count(
-              scrollDirection: Axis.vertical,
-              mainAxisSpacing: 10,
-              crossAxisSpacing: 15,
-              padding: EdgeInsets.zero,
-              shrinkWrap: true,
-              crossAxisCount: 4,
-              children: buttons,
+          FractionallySizedBox(
+            widthFactor: 0.9,
+            child: Container(
+              height: (MediaQuery.of(context).size.height) / 1.3,
+              alignment: Alignment.bottomCenter,
+              child: GridView.count(
+                scrollDirection: Axis.vertical,
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 15,
+                padding: EdgeInsets.zero,
+                shrinkWrap: true,
+                crossAxisCount: 4,
+                children: buttons,
+              ),
             ),
-          ),
+          )
         ],
       ),
     );
