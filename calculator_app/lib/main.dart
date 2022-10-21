@@ -29,32 +29,45 @@ class Calculator extends StatefulWidget {
 
 class _CalculatorState extends State<Calculator> {
   String displayString = "";
-  Widget buttonConstructor({
-    String text = "",
-    double mL = 8,
-    double mT = 5,
-    double mR = 0,
-    double mB = 0,
-    double pH = 35,
-    double pV = 0,
-    bool isEquals = false,
-    bool isCE = false,
-  }) {
-    return Container(
-      margin: EdgeInsets.fromLTRB(mL, mT, mR, mB),
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          padding: EdgeInsets.symmetric(horizontal: pH, vertical: pV),
-        ),
-        onPressed: !isEquals && !isCE
-            ? () => addToString(text)
-            : isEquals
-                ? () => calculateSequence(displayString)
-                : () => clearEverything(),
-        child: Text(
-          style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-          text,
-        ),
+  List<Widget> buttons = [];
+  _CalculatorState() {
+    buttons = [
+      buttonConstructor(text: "x"),
+      buttonConstructor(text: "÷"),
+      buttonConstructor(text: "("),
+      buttonConstructor(text: ")"),
+      buttonConstructor(text: "7"),
+      buttonConstructor(text: "8"),
+      buttonConstructor(text: "9"),
+      buttonConstructor(text: "-"),
+      buttonConstructor(text: "4"),
+      buttonConstructor(text: "5"),
+      buttonConstructor(text: "6"),
+      buttonConstructor(text: "+"),
+      buttonConstructor(text: "1"),
+      buttonConstructor(text: "2"),
+      buttonConstructor(text: "3"),
+      buttonConstructor(text: "="),
+      buttonConstructor(text: "0"),
+      buttonConstructor(text: "00"),
+      buttonConstructor(text: "."),
+      buttonConstructor(text: "CE"),
+    ];
+  }
+
+  Widget buttonConstructor({String text = ""}) {
+    return ElevatedButton(
+      // style: ElevatedButton.styleFrom(
+      //   padding: EdgeInsets.symmetric(horizontal: pH, vertical: pV),
+      // ),
+      onPressed: !(text == "=") && !(text == "CE")
+          ? () => addToString(text)
+          : (text == "=")
+              ? () => calculateSequence(displayString)
+              : () => clearEverything(),
+      child: Text(
+        style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+        text,
       ),
     );
   }
@@ -231,14 +244,15 @@ class _CalculatorState extends State<Calculator> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Awesome Calculator!'),
-      ),
+      // appBar: AppBar(
+      //   title: const Text('Awesome Calculator!'),
+      //   toolbarHeight: 35,
+      // ),
       body: Column(
         children: [
           Container(
             alignment: Alignment.centerRight,
-            margin: const EdgeInsets.fromLTRB(20, 30, 20, 20),
+            margin: const EdgeInsets.fromLTRB(20, 60, 20, 20),
             decoration: BoxDecoration(
               border: Border.all(width: 2),
               borderRadius: const BorderRadius.all(Radius.circular(10)),
@@ -248,77 +262,27 @@ class _CalculatorState extends State<Calculator> {
               controller: _scrollController,
               padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
               child: Text(
-                style: const TextStyle(fontSize: 30),
+                style: const TextStyle(fontSize: 25),
                 displayString,
               ),
             ),
           ),
           Container(
             alignment: Alignment.center,
-            margin: const EdgeInsets.fromLTRB(20, 120, 20, 0),
+            margin: const EdgeInsets.fromLTRB(20, 50, 20, 0),
             padding: const EdgeInsets.only(bottom: 15),
             // decoration: BoxDecoration(
             //   border: Border.all(width: 2),
             //   borderRadius: const BorderRadius.all(Radius.circular(10)),
             // ),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    buttonConstructor(text: "x"),
-                    buttonConstructor(text: "÷"),
-                    buttonConstructor(text: "("),
-                    buttonConstructor(text: ")"),
-                  ],
-                ),
-                Row(
-                  children: [
-                    buttonConstructor(text: "7", pV: 13, mT: 15),
-                    buttonConstructor(text: "8", pV: 13, mT: 15),
-                    buttonConstructor(text: "9", pV: 13, mT: 15),
-                    buttonConstructor(text: "-", pH: 32, pV: 20),
-                  ],
-                ),
-                Row(
-                  children: [
-                    buttonConstructor(text: "4", pV: 13, mT: 15),
-                    buttonConstructor(text: "5", pV: 13, mT: 15),
-                    buttonConstructor(text: "6", pV: 13, mT: 15),
-                    buttonConstructor(text: "+", pH: 30, pV: 20),
-                  ],
-                ),
-                Row(
-                  children: [
-                    buttonConstructor(text: "1", pV: 13, mT: 15),
-                    buttonConstructor(text: "2", pV: 13, mT: 15),
-                    buttonConstructor(text: "3", pV: 13, mT: 15),
-                    buttonConstructor(
-                        text: "=", pH: 30, pV: 20, isEquals: true),
-                  ],
-                ),
-                Row(
-                  children: [
-                    buttonConstructor(
-                      text: "0",
-                      pV: 10,
-                      mT: 15,
-                    ),
-                    buttonConstructor(
-                      text: ".",
-                      pV: 10,
-                      pH: 38,
-                      mT: 15,
-                    ),
-                    buttonConstructor(
-                      text: "CE",
-                      pV: 10,
-                      pH: 69,
-                      mT: 15,
-                      isCE: true,
-                    ),
-                  ],
-                ),
-              ],
+            child: GridView.count(
+              scrollDirection: Axis.vertical,
+              mainAxisSpacing: 10,
+              crossAxisSpacing: 15,
+              padding: EdgeInsets.zero,
+              shrinkWrap: true,
+              crossAxisCount: 4,
+              children: buttons,
             ),
           ),
         ],
