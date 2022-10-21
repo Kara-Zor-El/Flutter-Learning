@@ -143,51 +143,50 @@ class _CalculatorState extends State<Calculator> {
       return calculateString(returnAnswer('-', firstSub, s));
     }
 
-    if (s.length > 15) {
-      return s.substring(0, 16);
-    } else {
-      return s;
-    }
+    return s;
   }
 
   String returnAnswer(String operator, RegExp regex, String s) {
     var equationMatch = regex.firstMatch(s);
-    var equation = s.substring(equationMatch!.start, equationMatch.end);
-    int symbolIndex;
-    if (operator == "-") {
-      RegExp midSub = RegExp(r'\d+-(-?)+\d+');
-      var firstMatch = midSub.firstMatch(equation);
-      var firstMatchString = s.substring(firstMatch!.start, firstMatch.end);
-      symbolIndex =
-          equation.indexOf(operator, equation.indexOf(firstMatchString));
-    } else {
-      symbolIndex = equation.indexOf(operator);
+    try {
+      var equation = s.substring(equationMatch!.start, equationMatch.end);
+      int symbolIndex;
+      if (operator == "-") {
+        RegExp midSub = RegExp(r'\d+-(-?)+\d+');
+        var firstMatch = midSub.firstMatch(equation);
+        var firstMatchString = s.substring(firstMatch!.start, firstMatch.end);
+        symbolIndex =
+            equation.indexOf(operator, equation.indexOf(firstMatchString));
+      } else {
+        symbolIndex = equation.indexOf(operator);
+      }
+      double firstNum = double.parse(equation.substring(0, symbolIndex));
+      double secondNum = double.parse(equation.substring(symbolIndex + 1));
+      String answer;
+      if (operator == '÷') {
+        answer = s.substring(0, s.indexOf(equation)) +
+            (firstNum / secondNum).toString() +
+            s.substring(s.indexOf(equation) + equation.length);
+      } else if (operator == 'x') {
+        answer = s.substring(0, s.indexOf(equation)) +
+            (firstNum * secondNum).toString() +
+            s.substring(s.indexOf(equation) + equation.length);
+      } else if (operator == '+') {
+        answer = s.substring(0, s.indexOf(equation)) +
+            (firstNum + secondNum).toString() +
+            s.substring(s.indexOf(equation) + equation.length);
+      } else if (operator == '-') {
+        answer = s.substring(0, s.indexOf(equation)) +
+            (firstNum - secondNum).toString() +
+            s.substring(s.indexOf(equation) + equation.length);
+      } else {
+        answer = "NULL";
+      }
+      print("$equation in $s = $answer");
+      return answer;
+    } catch (e) {
+      return "Error | Not Allowed";
     }
-    double firstNum = double.parse(equation.substring(0, symbolIndex));
-    double secondNum = double.parse(equation.substring(symbolIndex + 1));
-    String answer;
-    if (operator == '÷') {
-      answer = s.substring(0, s.indexOf(equation)) +
-          (firstNum / secondNum).toString() +
-          s.substring(s.indexOf(equation) + equation.length);
-    } else if (operator == 'x') {
-      answer = s.substring(0, s.indexOf(equation)) +
-          (firstNum * secondNum).toString() +
-          s.substring(s.indexOf(equation) + equation.length);
-    } else if (operator == '+') {
-      answer = s.substring(0, s.indexOf(equation)) +
-          (firstNum + secondNum).toString() +
-          s.substring(s.indexOf(equation) + equation.length);
-    } else if (operator == '-') {
-      answer = s.substring(0, s.indexOf(equation)) +
-          (firstNum - secondNum).toString() +
-          s.substring(s.indexOf(equation) + equation.length);
-    } else {
-      answer = "NULL";
-    }
-
-    print("$equation in $s = $answer");
-    return answer;
   }
 
   String checkForErrors(String s) {
@@ -247,7 +246,7 @@ class _CalculatorState extends State<Calculator> {
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               controller: _scrollController,
-              padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
               child: Text(
                 style: const TextStyle(fontSize: 30),
                 displayString,
@@ -305,11 +304,18 @@ class _CalculatorState extends State<Calculator> {
                       mT: 15,
                     ),
                     buttonConstructor(
-                        text: "Clear Everything",
-                        pV: 10,
-                        pH: 37,
-                        mT: 15,
-                        isCE: true),
+                      text: ".",
+                      pV: 10,
+                      pH: 38,
+                      mT: 15,
+                    ),
+                    buttonConstructor(
+                      text: "CE",
+                      pV: 10,
+                      pH: 69,
+                      mT: 15,
+                      isCE: true,
+                    ),
                   ],
                 ),
               ],
