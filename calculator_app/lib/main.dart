@@ -218,7 +218,7 @@ class _CalculatorState extends State<Calculator> {
     }
 
     if (threePlusSub.hasMatch(s)) {
-      return "Two or more negative signs are not allowed";
+      return "Three or more negative signs are not allowed";
     }
 
     if (resetOnNew) {
@@ -258,10 +258,10 @@ class _CalculatorState extends State<Calculator> {
             alignment: Alignment.center,
             margin: const EdgeInsets.fromLTRB(20, 120, 20, 0),
             padding: const EdgeInsets.only(bottom: 15),
-            decoration: BoxDecoration(
-              border: Border.all(width: 2),
-              borderRadius: const BorderRadius.all(Radius.circular(10)),
-            ),
+            // decoration: BoxDecoration(
+            //   border: Border.all(width: 2),
+            //   borderRadius: const BorderRadius.all(Radius.circular(10)),
+            // ),
             child: Column(
               children: [
                 Row(
@@ -297,14 +297,21 @@ class _CalculatorState extends State<Calculator> {
                         text: "=", pH: 30, pV: 20, isEquals: true),
                   ],
                 ),
-                Row(children: [
-                  buttonConstructor(
-                      text: "Clear Everything",
+                Row(
+                  children: [
+                    buttonConstructor(
+                      text: "0",
                       pV: 10,
-                      pH: 84,
                       mT: 15,
-                      isCE: true),
-                ]),
+                    ),
+                    buttonConstructor(
+                        text: "Clear Everything",
+                        pV: 10,
+                        pH: 37,
+                        mT: 15,
+                        isCE: true),
+                  ],
+                ),
               ],
             ),
           ),
