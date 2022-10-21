@@ -14,7 +14,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Best Calculator!',
-      theme: ThemeData(primarySwatch: Colors.cyan),
+      theme: ThemeData(
+          primarySwatch: Colors.brown, scaffoldBackgroundColor: Colors.black),
       home: const Calculator(),
     );
   }
@@ -57,16 +58,14 @@ class _CalculatorState extends State<Calculator> {
 
   Widget buttonConstructor({String text = ""}) {
     return ElevatedButton(
-      // style: ElevatedButton.styleFrom(
-      //   padding: EdgeInsets.symmetric(horizontal: pH, vertical: pV),
-      // ),
       onPressed: !(text == "=") && !(text == "CE")
           ? () => addToString(text)
           : (text == "=")
               ? () => calculateSequence(displayString)
               : () => clearEverything(),
       child: Text(
-        style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+        style: const TextStyle(
+            fontSize: 25, fontWeight: FontWeight.bold, color: Colors.white),
         text,
       ),
     );
@@ -253,16 +252,12 @@ class _CalculatorState extends State<Calculator> {
           Container(
             alignment: Alignment.centerRight,
             margin: const EdgeInsets.fromLTRB(20, 60, 20, 20),
-            decoration: BoxDecoration(
-              border: Border.all(width: 2),
-              borderRadius: const BorderRadius.all(Radius.circular(10)),
-            ),
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               controller: _scrollController,
               padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
               child: Text(
-                style: const TextStyle(fontSize: 25),
+                style: const TextStyle(fontSize: 25, color: Colors.white),
                 displayString,
               ),
             ),
@@ -271,10 +266,6 @@ class _CalculatorState extends State<Calculator> {
             alignment: Alignment.center,
             margin: const EdgeInsets.fromLTRB(20, 50, 20, 0),
             padding: const EdgeInsets.only(bottom: 15),
-            // decoration: BoxDecoration(
-            //   border: Border.all(width: 2),
-            //   borderRadius: const BorderRadius.all(Radius.circular(10)),
-            // ),
             child: GridView.count(
               scrollDirection: Axis.vertical,
               mainAxisSpacing: 10,
