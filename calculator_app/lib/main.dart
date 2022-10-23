@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import './calculator.dart';
+import './navbar.dart';
 
 void main() {
   runApp(const MyApp());
@@ -27,8 +28,17 @@ class MyCalculatorApp extends StatefulWidget {
 }
 
 class _MyCalculatorAppState extends State<MyCalculatorApp> {
+  int index = 0;
   @override
   Widget build(BuildContext context) {
-    return const Calculator();
+    if (index == 0) {
+      return Column(
+        children: const [
+          Calculator(),
+          MyNavbar(),
+        ],
+      );
+    }
+    return Container();
   }
 }

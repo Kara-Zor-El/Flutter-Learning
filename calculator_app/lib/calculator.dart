@@ -240,44 +240,41 @@ class _CalculatorState extends State<Calculator> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text('Awesome Calculator!'),
-      //   toolbarHeight: 35,
-      // ),
-      body: Column(
-        children: [
-          Container(
-            alignment: Alignment.centerRight,
-            margin: const EdgeInsets.fromLTRB(20, 60, 20, 20),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              controller: _scrollController,
-              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-              child: Text(
-                style: const TextStyle(fontSize: 25, color: Colors.white),
-                displayString,
-              ),
+    return Column(
+      children: [
+        Container(
+          alignment: Alignment.centerRight,
+          margin: const EdgeInsets.fromLTRB(20, 60, 20, 20),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            controller: _scrollController,
+            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+            child: Text(
+              style: const TextStyle(
+                  fontSize: 25,
+                  color: Colors.white,
+                  decoration: TextDecoration.none),
+              displayString,
             ),
           ),
-          FractionallySizedBox(
-            widthFactor: 0.9,
-            child: Container(
-              height: (MediaQuery.of(context).size.height) / 1.3,
-              alignment: Alignment.bottomCenter,
-              child: GridView.count(
-                scrollDirection: Axis.vertical,
-                mainAxisSpacing: 10,
-                crossAxisSpacing: 15,
-                padding: EdgeInsets.zero,
-                shrinkWrap: true,
-                crossAxisCount: 4,
-                children: buttons,
-              ),
+        ),
+        FractionallySizedBox(
+          widthFactor: 0.9,
+          child: Container(
+            height: (MediaQuery.of(context).size.height) / 1.5,
+            alignment: Alignment.bottomCenter,
+            child: GridView.count(
+              scrollDirection: Axis.vertical,
+              mainAxisSpacing: 10,
+              crossAxisSpacing: 15,
+              padding: EdgeInsets.zero,
+              shrinkWrap: true,
+              crossAxisCount: 4,
+              children: buttons,
             ),
-          )
-        ],
-      ),
+          ),
+        )
+      ],
     );
   }
 }
