@@ -1,31 +1,34 @@
-// import 'package:flutter/material.dart';
-// import './main.dart';
+import 'package:flutter/material.dart';
+import './main.dart';
 
-// class MyNavbar extends StatelessWidget {
-//   const MyNavbar({super.key});
+class MyNavbar extends StatelessWidget {
+  final int curIndex;
+  final ValueChanged<int> onClick;
+  const MyNavbar({super.key, required this.curIndex, required this.onClick});
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return SizedBox(
-//       width: MediaQuery.of(context).size.width,
-//       height: MediaQuery.of(context).size.height / 8,
-//       child: Scaffold(
-//         bottomNavigationBar: NavigationBar(
-//           backgroundColor: Colors.brown,
-//           height: 60,
-//           destinations: const [
-//             NavigationDestination(
-//               icon: Icon(Icons.calculate),
-//               label: "Calculator",
-//             ),
-//             NavigationDestination(
-//               icon: Icon(Icons.settings),
-//               label: "Settings",
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-// Gonna put navbar in an another file later, having some trouble rn.
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height / 8,
+      child: Scaffold(
+        bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: Colors.brown,
+          selectedItemColor: Colors.white,
+          currentIndex: curIndex,
+          onTap: onClick,
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.calculate),
+              label: "Calculator",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.settings),
+              label: "Settings",
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
