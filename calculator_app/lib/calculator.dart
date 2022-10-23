@@ -267,6 +267,7 @@ class _CalculatorState extends State<Calculator> {
               scrollDirection: Axis.vertical,
               mainAxisSpacing: 10,
               crossAxisSpacing: 15,
+              childAspectRatio: 1.2,
               padding: EdgeInsets.zero,
               shrinkWrap: true,
               crossAxisCount: 4,

@@ -1,30 +1,31 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+// import 'package:flutter/material.dart';
+// import './main.dart';
 
-class MyNavbar extends StatelessWidget {
-  const MyNavbar({super.key});
+// class MyNavbar extends StatelessWidget {
+//   const MyNavbar({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height / 8,
-      child: Scaffold(
-        bottomNavigationBar: NavigationBar(
-          height: 60,
-          destinations: const [
-            NavigationDestination(
-              icon: Icon(Icons.calculate),
-              label: "Page 1",
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.calculate),
-              label: "Page 2",
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return SizedBox(
+//       width: MediaQuery.of(context).size.width,
+//       height: MediaQuery.of(context).size.height / 8,
+//       child: Scaffold(
+//         bottomNavigationBar: NavigationBar(
+//           backgroundColor: Colors.brown,
+//           height: 60,
+//           destinations: const [
+//             NavigationDestination(
+//               icon: Icon(Icons.calculate),
+//               label: "Calculator",
+//             ),
+//             NavigationDestination(
+//               icon: Icon(Icons.settings),
+//               label: "Settings",
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
+// Gonna put navbar in an another file later, having some trouble rn.

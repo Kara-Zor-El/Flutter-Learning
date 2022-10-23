@@ -33,9 +33,58 @@ class _MyCalculatorAppState extends State<MyCalculatorApp> {
   Widget build(BuildContext context) {
     if (index == 0) {
       return Column(
-        children: const [
-          Calculator(),
-          MyNavbar(),
+        children: [
+          const Calculator(),
+          SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height / 8,
+            child: Scaffold(
+              bottomNavigationBar: NavigationBar(
+                backgroundColor: Colors.brown,
+                height: 60,
+                onDestinationSelected: (index) =>
+                    setState(() => this.index = index),
+                destinations: const [
+                  NavigationDestination(
+                    icon: Icon(Icons.calculate),
+                    label: "Calculator",
+                  ),
+                  NavigationDestination(
+                    icon: Icon(Icons.settings),
+                    label: "Settings",
+                  ),
+                ],
+              ),
+            ),
+          )
+        ],
+      );
+    } else if (index == 1) {
+      return Column(
+        children: [
+          Text("Welcome to the settings screen"),
+          SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height / 8,
+            child: Scaffold(
+              bottomNavigationBar: NavigationBar(
+                backgroundColor: Colors.brown,
+                height: 60,
+                onDestinationSelected: (index) =>
+                    setState(() => this.index = index),
+                destinations: const [
+                  NavigationDestination(
+                    icon: Icon(Icons.calculate),
+                    label: "Calculator",
+                  ),
+                  NavigationDestination(
+                    icon: Icon(Icons.settings),
+                    label: "Settings",
+                  ),
+                ],
+              ),
+            ),
+          )
         ],
       );
     }
