@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import './calculator.dart';
 import './navbar.dart';
+import './settings.dart';
 
 void main() {
   runApp(const MyApp());
@@ -35,20 +36,15 @@ class _MyCalculatorAppState extends State<MyCalculatorApp> {
       return Column(
         children: [
           const Calculator(),
-          MyNavbar(
-            onClick: changeSceneIndex,
-            curIndex: index,
-          ),
+          MyNavbar(onClick: changeSceneIndex, curIndex: index),
         ],
       );
     } else if (index == 1) {
-      return Column(
+      return Stack(
+        alignment: Alignment.bottomCenter,
         children: [
-          const Text("Welcome to the settings screen"),
-          MyNavbar(
-            onClick: changeSceneIndex,
-            curIndex: index,
-          ),
+          Settings(),
+          MyNavbar(onClick: changeSceneIndex, curIndex: index),
         ],
       );
     }
