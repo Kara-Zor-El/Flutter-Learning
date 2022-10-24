@@ -13,8 +13,9 @@ class MyNavbar extends StatelessWidget {
       height: MediaQuery.of(context).size.height / 8,
       child: Scaffold(
         bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Colors.brown,
+          backgroundColor: Colors.black,
           selectedItemColor: Colors.white,
+          unselectedItemColor: Colors.brown,
           currentIndex: curIndex,
           onTap: onClick,
           items: const [
