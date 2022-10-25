@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 class Settings extends StatefulWidget {
   final Function updateColor;
-  const Settings({super.key, required this.updateColor});
+  final Function updateTrollMode;
+  const Settings(
+      {super.key, required this.updateColor, required this.updateTrollMode});
 
   @override
   State<Settings> createState() => _SettingsState();
@@ -87,27 +89,46 @@ class _SettingsState extends State<Settings> {
               )
             ],
           ),
-          Row(
-            children: [
-              for (var element in colors.entries)
-                Expanded(
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: element.value,
-                      minimumSize:
-                          Size(50, (MediaQuery.of(context).size.height / 8)),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 50),
+            child: Row(
+              children: [
+                for (var element in colors.entries)
+                  Expanded(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: element.value,
+                        minimumSize:
+                            Size(50, (MediaQuery.of(context).size.height / 8)),
+                      ),
+                      child: const Text(''),
+                      onPressed: () => _setColor(newButtonColor: element.value),
                     ),
-                    child: Text(''),
-                    onPressed: () => _setColor(newButtonColor: element.value),
-                  ),
-                )
-            ],
+                  )
+              ],
+            ),
+          ),
+          ElevatedButton(
+            onPressed: trollModeHandler,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: buttonColor,
+              minimumSize: Size(50, (MediaQuery.of(context).size.height / 10)),
+            ),
+            child: !trollMode
+                ? const Text("Enable Troll Mode?")
+                : const Text("Disable Troll Mode?"),
           ),
         ],
       ),
     );
   }
+
+  void trollModeHandler() {
+    trollMode = !trollMode;
+    widget.updateTrollMode();
+  }
 }
 
 Color? textColor = Colors.white;
 Color? buttonColor = Colors.brown;
+bool trollMode = false;

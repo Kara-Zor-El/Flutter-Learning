@@ -42,7 +42,7 @@ class _MyCalculatorAppState extends State<MyCalculatorApp> {
       return Stack(
         alignment: Alignment.bottomCenter,
         children: [
-          Settings(updateColor: updateColor),
+          Settings(updateColor: updateColor, updateTrollMode: updateTrollMode),
           MyNavbar(onClick: changeSceneIndex, curIndex: index),
         ],
       );
@@ -60,6 +60,12 @@ class _MyCalculatorAppState extends State<MyCalculatorApp> {
     setState(() {
       buttonColor = buttonColor;
       textColor = textColor;
+    });
+  }
+
+  void updateTrollMode() {
+    setState(() {
+      trollMode;
     });
   }
 }
