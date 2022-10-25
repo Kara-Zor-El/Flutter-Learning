@@ -1,3 +1,4 @@
+import 'package:calculator_app/settings.dart';
 import 'package:flutter/material.dart';
 
 class MyNavbar extends StatelessWidget {
@@ -13,8 +14,8 @@ class MyNavbar extends StatelessWidget {
       child: Scaffold(
         bottomNavigationBar: BottomNavigationBar(
           backgroundColor: Colors.black,
-          selectedItemColor: Colors.white,
-          unselectedItemColor: Colors.brown,
+          selectedItemColor: textColor,
+          unselectedItemColor: buttonColor,
           currentIndex: curIndex,
           onTap: onClick,
           items: const [

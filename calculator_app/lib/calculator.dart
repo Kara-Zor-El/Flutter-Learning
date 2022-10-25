@@ -1,3 +1,4 @@
+import 'package:calculator_app/settings.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -56,14 +57,15 @@ class _CalculatorState extends State<Calculator> {
 
   Widget buttonConstructor({String text = ""}) {
     return ElevatedButton(
+      style: ElevatedButton.styleFrom(backgroundColor: buttonColor),
       onPressed: !(text == "=") && !(text == "CE")
           ? () => addToString(text)
           : (text == "=")
               ? () => calculateSequence(displayString)
               : () => clearEverything(),
       child: Text(
-        style: const TextStyle(
-            fontSize: 25, fontWeight: FontWeight.bold, color: Colors.white),
+        style: TextStyle(
+            fontSize: 25, fontWeight: FontWeight.bold, color: textColor),
         text,
       ),
     );
@@ -250,9 +252,9 @@ class _CalculatorState extends State<Calculator> {
             controller: _scrollController,
             padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
             child: Text(
-              style: const TextStyle(
+              style: TextStyle(
                   fontSize: 25,
-                  color: Colors.white,
+                  color: textColor,
                   decoration: TextDecoration.none),
               displayString,
             ),

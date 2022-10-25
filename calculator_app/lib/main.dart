@@ -14,8 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-          primarySwatch: Colors.brown, scaffoldBackgroundColor: Colors.black),
+      theme: ThemeData(scaffoldBackgroundColor: Colors.black),
       home: const MyCalculatorApp(),
     );
   }
@@ -43,7 +42,7 @@ class _MyCalculatorAppState extends State<MyCalculatorApp> {
       return Stack(
         alignment: Alignment.bottomCenter,
         children: [
-          Settings(),
+          Settings(updateColor: updateColor),
           MyNavbar(onClick: changeSceneIndex, curIndex: index),
         ],
       );
@@ -54,6 +53,13 @@ class _MyCalculatorAppState extends State<MyCalculatorApp> {
   void changeSceneIndex(int newIndex) {
     setState(() {
       index = newIndex;
+    });
+  }
+
+  void updateColor() {
+    setState(() {
+      buttonColor = buttonColor;
+      textColor = textColor;
     });
   }
 }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Settings extends StatefulWidget {
-  const Settings({super.key});
+  final Function updateColor;
+  const Settings({super.key, required this.updateColor});
 
   @override
   State<Settings> createState() => _SettingsState();
@@ -12,31 +13,42 @@ class _SettingsState extends State<Settings> {
     'purple': Colors.purple,
     'blue': Colors.blue,
     'yellow': Colors.white,
-    'pink': Colors.pink,
+    'pink': Colors.brown,
     'teal': Colors.teal,
     'orange': Colors.orange,
   };
 
-  void _setColor(String colorName, Color color) {}
+  void _setColor({Color? newTextColor, Color? newButtonColor}) {
+    if (newButtonColor == null) {
+      textColor = newTextColor;
+    } else if (newTextColor == null) {
+      buttonColor = newButtonColor;
+    }
+    widget.updateColor();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Preferences"),
+        title: Text(
+          "Preferences",
+          style: TextStyle(color: textColor),
+        ),
+        backgroundColor: buttonColor,
       ),
       body: Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
+            children: [
               Padding(
-                padding: EdgeInsets.only(top: 40, bottom: 25),
+                padding: const EdgeInsets.only(top: 40, bottom: 25),
                 child: Text(
                   "Select Preferred Text Color",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: textColor,
                     fontSize: 22,
                   ),
                 ),
@@ -54,21 +66,21 @@ class _SettingsState extends State<Settings> {
                           Size(50, (MediaQuery.of(context).size.height / 8)),
                     ),
                     child: Text(''),
-                    onPressed: () => _setColor(element.key, element.value),
+                    onPressed: () => _setColor(newTextColor: element.value),
                   ),
                 )
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
+            children: [
               Padding(
-                padding: EdgeInsets.only(top: 40, bottom: 25),
+                padding: const EdgeInsets.only(top: 40, bottom: 25),
                 child: Text(
-                  "Select Preferred Button/Theme Color",
+                  "Select Preferred Theme Color",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: textColor,
                     fontSize: 22,
                   ),
                 ),
@@ -86,7 +98,7 @@ class _SettingsState extends State<Settings> {
                           Size(50, (MediaQuery.of(context).size.height / 8)),
                     ),
                     child: Text(''),
-                    onPressed: () => _setColor(element.key, element.value),
+                    onPressed: () => _setColor(newButtonColor: element.value),
                   ),
                 )
             ],
@@ -97,5 +109,5 @@ class _SettingsState extends State<Settings> {
   }
 }
 
-Color? textColor;
-Color? buttonColor;
+Color? textColor = Colors.white;
+Color? buttonColor = Colors.brown;
