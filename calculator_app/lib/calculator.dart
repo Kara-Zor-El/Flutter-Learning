@@ -58,17 +58,29 @@ class _CalculatorState extends State<Calculator> {
   Widget buttonConstructor({String text = ""}) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(backgroundColor: buttonColor),
-      onPressed: !(text == "=") && !(text == "CE")
-          ? () => addToString(text)
-          : (text == "=")
-              ? () => calculateSequence(displayString)
-              : () => clearEverything(),
+      onPressed: () => onPressedHandler(text),
       child: Text(
         style: TextStyle(
             fontSize: 25, fontWeight: FontWeight.bold, color: textColor),
         text,
       ),
     );
+  }
+
+  void onPressedHandler(String text) {
+    if (text == "=") {
+      calculateSequence(displayString);
+    } else if (text == "CE") {
+      clearEverything();
+    } else {
+      addToString(text);
+    }
+    if (trollMode) {
+      buttons.shuffle();
+      setState(() {
+        buttons;
+      });
+    }
   }
 
   final ScrollController _scrollController = ScrollController();

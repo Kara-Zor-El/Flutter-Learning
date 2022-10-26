@@ -32,7 +32,8 @@ class _MyCalculatorAppState extends State<MyCalculatorApp> {
   @override
   Widget build(BuildContext context) {
     if (index == 0) {
-      return Column(
+      return Stack(
+        alignment: Alignment.bottomCenter,
         children: [
           const Calculator(),
           MyNavbar(onClick: changeSceneIndex, curIndex: index),
