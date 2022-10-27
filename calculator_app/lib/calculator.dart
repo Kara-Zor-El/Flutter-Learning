@@ -1,3 +1,4 @@
+import 'package:calculator_app/navbar.dart';
 import 'package:calculator_app/settings.dart';
 import 'package:flutter/material.dart';
 
@@ -29,31 +30,28 @@ class Calculator extends StatefulWidget {
 
 class _CalculatorState extends State<Calculator> {
   String displayString = "";
-  List<Widget> buttons = [];
-  _CalculatorState() {
-    buttons = [
-      buttonConstructor(text: "x"),
-      buttonConstructor(text: "÷"),
-      buttonConstructor(text: "("),
-      buttonConstructor(text: ")"),
-      buttonConstructor(text: "7"),
-      buttonConstructor(text: "8"),
-      buttonConstructor(text: "9"),
-      buttonConstructor(text: "-"),
-      buttonConstructor(text: "4"),
-      buttonConstructor(text: "5"),
-      buttonConstructor(text: "6"),
-      buttonConstructor(text: "+"),
-      buttonConstructor(text: "1"),
-      buttonConstructor(text: "2"),
-      buttonConstructor(text: "3"),
-      buttonConstructor(text: "="),
-      buttonConstructor(text: "0"),
-      buttonConstructor(text: "00"),
-      buttonConstructor(text: "."),
-      buttonConstructor(text: "CE"),
-    ];
-  }
+  List<String> buttons = [
+    "÷",
+    "x",
+    "(",
+    ")",
+    "7",
+    "8",
+    "9",
+    "-",
+    "4",
+    "5",
+    "6",
+    "+",
+    "1",
+    "2",
+    "3",
+    "=",
+    "0",
+    "00",
+    ".",
+    "CE",
+  ];
 
   Widget buttonConstructor({String text = ""}) {
     return ElevatedButton(
@@ -265,9 +263,10 @@ class _CalculatorState extends State<Calculator> {
             padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
             child: Text(
               style: TextStyle(
-                  fontSize: 25,
-                  color: textColor,
-                  decoration: TextDecoration.none),
+                fontSize: 25,
+                color: textColor,
+                decoration: TextDecoration.none,
+              ),
               displayString,
             ),
           ),
@@ -275,17 +274,39 @@ class _CalculatorState extends State<Calculator> {
         FractionallySizedBox(
           widthFactor: 0.9,
           child: Container(
+            margin: const EdgeInsets.only(bottom: 30),
             height: (MediaQuery.of(context).size.height) / 1.5,
             alignment: Alignment.bottomCenter,
             child: GridView.count(
-              scrollDirection: Axis.vertical,
-              mainAxisSpacing: 10,
-              crossAxisSpacing: 15,
-              childAspectRatio: 1.2,
-              padding: EdgeInsets.zero,
-              shrinkWrap: true,
-              crossAxisCount: 4,
-              children: buttons,
+                scrollDirection: Axis.vertical,
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 15,
+                childAspectRatio: 1.2,
+                padding: EdgeInsets.zero,
+                shrinkWrap: true,
+                crossAxisCount: 4,
+                children: [
+                  for (int i = 0; i < buttons.length; i++)
+                    buttonConstructor(text: buttons[i])
+                ]),
+          ),
+        ),
+        FractionallySizedBox(
+          widthFactor: 0.9,
+          child: ElevatedButton(
+            onPressed: () => Navigator.of(context)
+                .pushNamed('/settings')
+                .then((value) => setState(() {})),
+            style: ElevatedButton.styleFrom(
+                backgroundColor: buttonColor, padding: const EdgeInsets.all(5)),
+            child: Column(
+              children: [
+                Icon(
+                  color: textColor,
+                  Icons.settings,
+                ),
+                Text("Settings", style: TextStyle(color: textColor)),
+              ],
             ),
           ),
         )

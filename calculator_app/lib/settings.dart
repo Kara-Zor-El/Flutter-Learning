@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Settings extends StatefulWidget {
-  final Function updateColor;
-  final Function updateTrollMode;
-  const Settings(
-      {super.key, required this.updateColor, required this.updateTrollMode});
+  const Settings({super.key});
 
   @override
   State<Settings> createState() => _SettingsState();
@@ -26,7 +23,10 @@ class _SettingsState extends State<Settings> {
     } else if (newTextColor == null) {
       buttonColor = newButtonColor;
     }
-    widget.updateColor();
+    setState(() {
+      buttonColor;
+      textColor;
+    });
   }
 
   @override
@@ -125,7 +125,9 @@ class _SettingsState extends State<Settings> {
 
   void trollModeHandler() {
     trollMode = !trollMode;
-    widget.updateTrollMode();
+    setState(() {
+      trollMode;
+    });
   }
 }
 
