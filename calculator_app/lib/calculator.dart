@@ -1,4 +1,3 @@
-import 'package:calculator_app/navbar.dart';
 import 'package:calculator_app/settings.dart';
 import 'package:flutter/material.dart';
 
@@ -75,9 +74,6 @@ class _CalculatorState extends State<Calculator> {
     }
     if (trollMode) {
       buttons.shuffle();
-      setState(() {
-        buttons;
-      });
     }
   }
 
