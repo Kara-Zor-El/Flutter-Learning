@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import './calculator.dart';
 import './settings.dart';
+import 'notes.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
       home: const MyCalculatorApp(),
       routes: <String, WidgetBuilder>{
         '/settings': (BuildContext context) => const Settings(),
+        '/notes': (BuildContext context) => const Notes(),
       },
     );
   }

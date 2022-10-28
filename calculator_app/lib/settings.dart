@@ -32,66 +32,32 @@ class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Preferences",
-          style: TextStyle(color: textColor),
-        ),
-        backgroundColor: buttonColor,
-      ),
-      body: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 40, bottom: 25),
-                child: Text(
-                  "Select Preferred Text Color",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: textColor,
-                    fontSize: 22,
-                  ),
-                ),
-              )
-            ],
+        appBar: AppBar(
+          title: Text(
+            "Preferences",
+            style: TextStyle(color: textColor),
           ),
-          Row(
-            children: [
-              for (var element in colors.entries)
-                Expanded(
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: element.value,
-                      minimumSize:
-                          Size(50, (MediaQuery.of(context).size.height / 8)),
+          backgroundColor: buttonColor,
+        ),
+        body: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 40, bottom: 25),
+                  child: Text(
+                    "Select Preferred Text Color",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: textColor,
+                      fontSize: 22,
                     ),
-                    child: Text(''),
-                    onPressed: () => _setColor(newTextColor: element.value),
                   ),
                 )
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 40, bottom: 25),
-                child: Text(
-                  "Select Preferred Theme Color",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: textColor,
-                    fontSize: 22,
-                  ),
-                ),
-              )
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 50),
-            child: Row(
+              ],
+            ),
+            Row(
               children: [
                 for (var element in colors.entries)
                   Expanded(
@@ -101,26 +67,61 @@ class _SettingsState extends State<Settings> {
                         minimumSize:
                             Size(50, (MediaQuery.of(context).size.height / 8)),
                       ),
-                      child: const Text(''),
-                      onPressed: () => _setColor(newButtonColor: element.value),
+                      child: Text(''),
+                      onPressed: () => _setColor(newTextColor: element.value),
                     ),
                   )
               ],
             ),
-          ),
-          ElevatedButton(
-            onPressed: trollModeHandler,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: buttonColor,
-              minimumSize: Size(50, (MediaQuery.of(context).size.height / 10)),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 40, bottom: 25),
+                  child: Text(
+                    "Select Preferred Theme Color",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: textColor,
+                      fontSize: 22,
+                    ),
+                  ),
+                )
+              ],
             ),
-            child: !trollMode
-                ? const Text("Enable Troll Mode?")
-                : const Text("Disable Troll Mode?"),
-          ),
-        ],
-      ),
-    );
+            Padding(
+              padding: const EdgeInsets.only(bottom: 50),
+              child: Row(
+                children: [
+                  for (var element in colors.entries)
+                    Expanded(
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: element.value,
+                          minimumSize: Size(
+                              50, (MediaQuery.of(context).size.height / 8)),
+                        ),
+                        child: const Text(''),
+                        onPressed: () =>
+                            _setColor(newButtonColor: element.value),
+                      ),
+                    )
+                ],
+              ),
+            ),
+            ElevatedButton(
+              onPressed: trollModeHandler,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: buttonColor,
+                minimumSize:
+                    Size(50, (MediaQuery.of(context).size.height / 10)),
+              ),
+              child: !trollMode
+                  ? const Text("Enable Troll Mode?")
+                  : const Text("Disable Troll Mode?"),
+            ),
+          ],
+        ));
   }
 
   void trollModeHandler() {
