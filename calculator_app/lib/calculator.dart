@@ -292,38 +292,43 @@ class _CalculatorState extends State<Calculator> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              ElevatedButton(
-                onPressed: () => Navigator.of(context)
-                    .pushNamed('/settings')
-                    .then((value) => setState(() {})),
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: buttonColor,
-                    padding: const EdgeInsets.all(5)),
-                child: Column(
-                  children: [
-                    Icon(
-                      color: textColor,
-                      Icons.settings,
-                    ),
-                    Text("Settings", style: TextStyle(color: textColor)),
-                  ],
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: () => Navigator.of(context)
+                      .pushNamed('/notes')
+                      .then((value) => setState(() {})),
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: buttonColor,
+                      padding: const EdgeInsets.all(5)),
+                  child: Column(
+                    children: [
+                      Icon(
+                        color: textColor,
+                        Icons.notes_rounded,
+                      ),
+                      Text("Notes", style: TextStyle(color: textColor)),
+                    ],
+                  ),
                 ),
               ),
-              ElevatedButton(
-                onPressed: () => Navigator.of(context)
-                    .pushNamed('/notes')
-                    .then((value) => setState(() {})),
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: buttonColor,
-                    padding: const EdgeInsets.all(5)),
-                child: Column(
-                  children: [
-                    Icon(
-                      color: textColor,
-                      Icons.notes_rounded,
-                    ),
-                    Text("Notes", style: TextStyle(color: textColor)),
-                  ],
+              const SizedBox(width: 15),
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: () => Navigator.of(context)
+                      .pushNamed('/settings')
+                      .then((value) => setState(() {})),
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: buttonColor,
+                      padding: const EdgeInsets.all(5)),
+                  child: Column(
+                    children: [
+                      Icon(
+                        color: textColor,
+                        Icons.settings,
+                      ),
+                      Text("Settings", style: TextStyle(color: textColor)),
+                    ],
+                  ),
                 ),
               ),
             ],

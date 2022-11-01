@@ -41,25 +41,5 @@ class _MyCalculatorAppState extends State<MyCalculatorApp> {
         Calculator(),
       ],
     );
-    // Settings(updateColor: updateColor, updateTrollMode: updateTrollMode),
-  }
-
-  void changeSceneIndex(int newIndex) {
-    setState(() {
-      index = newIndex;
-    });
-  }
-
-  void updateColor() {
-    setState(() {
-      buttonColor = buttonColor;
-      textColor = textColor;
-    });
-  }
-
-  void updateTrollMode() {
-    setState(() {
-      trollMode;
-    });
   }
 }
