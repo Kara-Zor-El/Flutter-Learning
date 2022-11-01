@@ -55,33 +55,36 @@ class _NotesState extends State<Notes> {
                 ),
               ),
               SizedBox(height: 7),
-              Row(
-                children: [
-                  Expanded(
-                    flex: 7,
-                    child: TextField(
-                      decoration: const InputDecoration(
-                        fillColor: Colors.white,
-                        filled: true,
-                        border: OutlineInputBorder(),
-                        hintText: 'Enter a note',
-                        contentPadding:
-                            EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 7,
+                      child: TextField(
+                        decoration: const InputDecoration(
+                          fillColor: Colors.white,
+                          filled: true,
+                          border: OutlineInputBorder(),
+                          hintText: 'Enter a note',
+                          contentPadding: EdgeInsets.only(
+                              left: 14.0, bottom: 8.0, top: 8.0),
+                        ),
+                        controller: myInputController,
                       ),
-                      controller: myInputController,
                     ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () => onInputHandler(),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black,
-                      padding: EdgeInsets.symmetric(vertical: 10),
+                    ElevatedButton(
+                      onPressed: () => onInputHandler(),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.black,
+                        padding: EdgeInsets.symmetric(vertical: 12),
+                      ),
+                      child: const Icon(Icons.edit_note_sharp,
+                          color: Colors.white),
                     ),
-                    child:
-                        const Icon(Icons.edit_note_sharp, color: Colors.white),
-                  ),
-                ],
-              ),
+                  ],
+                ),
+              )
             ],
           ),
         ),
