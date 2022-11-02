@@ -67,7 +67,7 @@ class _SettingsState extends State<Settings> {
                         minimumSize:
                             Size(50, (MediaQuery.of(context).size.height / 8)),
                       ),
-                      child: Text(''),
+                      child: const Text(''),
                       onPressed: () => _setColor(newTextColor: element.value),
                     ),
                   )

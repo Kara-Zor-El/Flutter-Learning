@@ -11,9 +11,11 @@ class Notes extends StatefulWidget {
 
 class _NotesState extends State<Notes> {
   final myInputController = TextEditingController();
+  final myEditingController = TextEditingController();
   List<String> notes = [];
   @override
   void dispose() {
+    myEditingController.dispose();
     myInputController.dispose();
     super.dispose();
   }
@@ -46,17 +48,17 @@ class _NotesState extends State<Notes> {
                     childAspectRatio: 1,
                     padding: const EdgeInsets.all(15),
                     shrinkWrap: true,
-                    crossAxisCount: 4,
+                    crossAxisCount: 3,
                     children: [
                       for (int i = 0; i < notes.length; i++)
-                        noteConstructor(text: notes[i])
+                        noteConstructor(text: notes[i], index: i)
                     ],
                   ),
                 ),
               ),
-              SizedBox(height: 7),
+              const SizedBox(height: 7),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15),
+                padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: Row(
                   children: [
                     Expanded(
@@ -77,7 +79,7 @@ class _NotesState extends State<Notes> {
                       onPressed: () => onInputHandler(),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.black,
-                        padding: EdgeInsets.symmetric(vertical: 12),
+                        padding: const EdgeInsets.symmetric(vertical: 12),
                       ),
                       child: const Icon(Icons.edit_note_sharp,
                           color: Colors.white),
@@ -95,23 +97,139 @@ class _NotesState extends State<Notes> {
   void onInputHandler() {
     var text = myInputController.text;
     notes.add(text);
-    setState(() {});
+    setState(() {
+      notes;
+    });
     myInputController.clear();
   }
 
-  Widget noteConstructor({String text = ""}) {
+  void deleteNote(int index) {
+    notes.removeAt(index);
+    setState(() {
+      notes;
+    });
+  }
+
+  void editNote(String newText, int index) {
+    notes[index] = newText;
+    setState(() {
+      notes;
+    });
+  }
+
+  Widget noteConstructor({String text = "", required int index}) {
     return Container(
       color: buttonColor,
-      child: Padding(
-        padding: EdgeInsets.all(5),
-        child: Text(
-          style: TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.bold,
-            color: textColor,
+      child: Column(
+        children: [
+          SizedBox(
+            height: 20,
+            child: Align(
+              alignment: Alignment.topRight,
+              child: IconButton(
+                icon: Icon(Icons.more_horiz_outlined, color: textColor),
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: Text("Note", style: TextStyle(color: textColor)),
+                      content: Text(text, style: TextStyle(color: textColor)),
+                      backgroundColor: buttonColor,
+                      actions: [
+                        TextButton(
+                          child: Text(
+                            'Delete',
+                            style: TextStyle(color: textColor),
+                          ),
+                          onPressed: () {
+                            deleteNote(index);
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                        TextButton(
+                          child: Text(
+                            'Edit',
+                            style: TextStyle(color: textColor),
+                          ),
+                          onPressed: () {
+                            myEditingController.text = text;
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: Text(
+                                  "Edit",
+                                  style: TextStyle(color: textColor),
+                                ),
+                                contentPadding: const EdgeInsets.all(10),
+                                content: TextField(
+                                  maxLines: 5,
+                                  style: TextStyle(color: textColor),
+                                  decoration: InputDecoration(
+                                    fillColor: buttonColor,
+                                    filled: true,
+                                    hoverColor: buttonColor,
+                                    focusColor: buttonColor,
+                                    border: InputBorder.none,
+                                  ),
+                                  controller: myEditingController,
+                                ),
+                                backgroundColor: buttonColor,
+                                actions: [
+                                  TextButton(
+                                    child: Text(
+                                      'Confirm',
+                                      style: TextStyle(color: textColor),
+                                    ),
+                                    onPressed: () {
+                                      editNote(myEditingController.text, index);
+                                      Navigator.of(context).pop();
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                  TextButton(
+                                    child: Text(
+                                      'Cancel',
+                                      style: TextStyle(color: textColor),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                        TextButton(
+                          child: Text(
+                            'Cancel',
+                            style: TextStyle(color: textColor),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                padding: const EdgeInsets.all(2),
+                splashRadius: 5,
+              ),
+            ),
           ),
-          text,
-        ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(5, 10, 5, 5),
+            child: Text(
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+                color: textColor,
+              ),
+              (text.length > 40) ? "${text.substring(0, 40)}..." : text,
+            ),
+          ),
+        ],
       ),
     );
   }
