@@ -218,17 +218,20 @@ class _NotesState extends State<Notes> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(5, 10, 5, 5),
-            child: Text(
-              style: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-                color: textColor,
+          Align(
+            alignment: Alignment.topLeft,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+              child: Text(
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                  color: textColor,
+                ),
+                (text.length > 40) ? "${text.substring(0, 40)}..." : text,
               ),
-              (text.length > 40) ? "${text.substring(0, 40)}..." : text,
             ),
-          ),
+          )
         ],
       ),
     );

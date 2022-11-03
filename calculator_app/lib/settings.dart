@@ -32,32 +32,34 @@ class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            "Preferences",
-            style: TextStyle(color: textColor),
-          ),
-          backgroundColor: buttonColor,
+      appBar: AppBar(
+        title: Text(
+          "Preferences",
+          style: TextStyle(color: textColor),
         ),
-        body: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 40, bottom: 25),
-                  child: Text(
-                    "Select Preferred Text Color",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: textColor,
-                      fontSize: 22,
-                    ),
+        backgroundColor: buttonColor,
+      ),
+      body: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 40, bottom: 25),
+                child: Text(
+                  "Select Preferred Text Color",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: textColor,
+                    fontSize: 22,
                   ),
-                )
-              ],
-            ),
-            Row(
+                ),
+              )
+            ],
+          ),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.9,
+            child: Row(
               children: [
                 for (var element in colors.entries)
                   Expanded(
@@ -73,24 +75,27 @@ class _SettingsState extends State<Settings> {
                   )
               ],
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 40, bottom: 25),
-                  child: Text(
-                    "Select Preferred Theme Color",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: textColor,
-                      fontSize: 22,
-                    ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 40, bottom: 25),
+                child: Text(
+                  "Select Preferred Theme Color",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: textColor,
+                    fontSize: 22,
                   ),
-                )
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 50),
+                ),
+              )
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 50),
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.9,
               child: Row(
                 children: [
                   for (var element in colors.entries)
@@ -109,19 +114,20 @@ class _SettingsState extends State<Settings> {
                 ],
               ),
             ),
-            ElevatedButton(
-              onPressed: trollModeHandler,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: buttonColor,
-                minimumSize:
-                    Size(50, (MediaQuery.of(context).size.height / 10)),
-              ),
-              child: !trollMode
-                  ? const Text("Enable Troll Mode?")
-                  : const Text("Disable Troll Mode?"),
+          ),
+          ElevatedButton(
+            onPressed: trollModeHandler,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: buttonColor,
+              minimumSize: Size(50, (MediaQuery.of(context).size.height / 10)),
             ),
-          ],
-        ));
+            child: !trollMode
+                ? const Text("Enable Troll Mode?")
+                : const Text("Disable Troll Mode?"),
+          ),
+        ],
+      ),
+    );
   }
 
   void trollModeHandler() {
