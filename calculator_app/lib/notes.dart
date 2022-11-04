@@ -13,11 +13,29 @@ class _NotesState extends State<Notes> {
   final myInputController = TextEditingController();
   final myEditingController = TextEditingController();
   List<String> notes = [];
+
   @override
   void dispose() {
     myEditingController.dispose();
     myInputController.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    setPrefs();
+    retrieveNotes();
+    super.initState();
+  }
+
+  void retrieveNotes() async {
+    final prefs = await SharedPreferences.getInstance();
+    try {
+      notes = prefs.getStringList("notes")!;
+    } catch (e) {
+      notes = [];
+    }
+    setState(() {});
   }
 
   @override
@@ -94,9 +112,10 @@ class _NotesState extends State<Notes> {
     );
   }
 
-  void onInputHandler() {
+  void onInputHandler() async {
     var text = myInputController.text;
     notes.add(text);
+    updateSharedPrefs();
     setState(() {
       notes;
     });
@@ -105,6 +124,7 @@ class _NotesState extends State<Notes> {
 
   void deleteNote(int index) {
     notes.removeAt(index);
+    updateSharedPrefs();
     setState(() {
       notes;
     });
@@ -112,9 +132,39 @@ class _NotesState extends State<Notes> {
 
   void editNote(String newText, int index) {
     notes[index] = newText;
+    updateSharedPrefs();
     setState(() {
       notes;
     });
+  }
+
+  void updateSharedPrefs() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setStringList("notes", notes);
+  }
+
+  Color? textColor;
+  Color? buttonColor;
+  bool trollMode = false;
+  void setPrefs() async {
+    final Map<String, Color> colors = {
+      'purple': Colors.purple,
+      'blue': Colors.blue,
+      'white': Colors.white,
+      'brown': Colors.brown,
+      'teal': Colors.teal,
+      'orange': Colors.orange,
+    };
+    final prefs = await SharedPreferences.getInstance();
+    textColor = colors[prefs.getString('textColor')];
+    buttonColor = colors[prefs.getString('buttonColor')];
+    try {
+      prefs.getBool('trollMode');
+      trollMode = prefs.getBool('trollMode')!;
+    } catch (e) {
+      trollMode = false;
+    }
+    setState(() {});
   }
 
   Widget noteConstructor({String text = "", required int index}) {

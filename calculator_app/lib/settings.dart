@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -8,25 +9,54 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
+  @override
+  void initState() {
+    trollMode = false;
+    setPrefs();
+    super.initState();
+  }
+
   final Map<String, Color> colors = {
     'purple': Colors.purple,
     'blue': Colors.blue,
-    'yellow': Colors.white,
-    'pink': Colors.brown,
+    'white': Colors.white,
+    'brown': Colors.brown,
     'teal': Colors.teal,
     'orange': Colors.orange,
   };
 
-  void _setColor({Color? newTextColor, Color? newButtonColor}) {
-    if (newButtonColor == null) {
-      textColor = newTextColor;
-    } else if (newTextColor == null) {
-      buttonColor = newButtonColor;
-    }
+  void _setButtonColor({String newButtonColor = 'brown'}) async {
+    final prefs = await SharedPreferences.getInstance();
+    buttonColor = colors[newButtonColor];
+    prefs.setString('buttonColor', newButtonColor);
     setState(() {
       buttonColor;
+    });
+  }
+
+  void _setTextColor({String newTextColor = 'white'}) async {
+    final prefs = await SharedPreferences.getInstance();
+    textColor = colors[newTextColor];
+    prefs.setString('textColor', newTextColor);
+    setState(() {
       textColor;
     });
+  }
+
+  Color? textColor;
+  Color? buttonColor;
+  bool trollMode = false;
+  void setPrefs() async {
+    final prefs = await SharedPreferences.getInstance();
+    textColor = colors[prefs.getString('textColor')];
+    buttonColor = colors[prefs.getString('buttonColor')];
+    try {
+      prefs.getBool('trollMode');
+      trollMode = prefs.getBool('trollMode')!;
+    } catch (e) {
+      trollMode = false;
+    }
+    setState(() {});
   }
 
   @override
@@ -70,7 +100,7 @@ class _SettingsState extends State<Settings> {
                             Size(50, (MediaQuery.of(context).size.height / 8)),
                       ),
                       child: const Text(''),
-                      onPressed: () => _setColor(newTextColor: element.value),
+                      onPressed: () => _setTextColor(newTextColor: element.key),
                     ),
                   )
               ],
@@ -108,7 +138,7 @@ class _SettingsState extends State<Settings> {
                         ),
                         child: const Text(''),
                         onPressed: () =>
-                            _setColor(newButtonColor: element.value),
+                            _setButtonColor(newButtonColor: element.key),
                       ),
                     )
                 ],
@@ -130,14 +160,10 @@ class _SettingsState extends State<Settings> {
     );
   }
 
-  void trollModeHandler() {
-    trollMode = !trollMode;
-    setState(() {
-      trollMode;
-    });
+  void trollModeHandler() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setBool('trollMode', !prefs.getBool('trollMode')!);
+    trollMode = prefs.getBool('trollMode')!;
+    setState(() {});
   }
 }
-
-Color? textColor = Colors.white;
-Color? buttonColor = Colors.brown;
-bool trollMode = false;

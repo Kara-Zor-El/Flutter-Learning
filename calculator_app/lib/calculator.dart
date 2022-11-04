@@ -1,5 +1,5 @@
-import 'package:calculator_app/settings.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(const MyCalculator());
@@ -64,6 +64,12 @@ class _CalculatorState extends State<Calculator> {
     );
   }
 
+  @override
+  void initState() {
+    setPrefs();
+    super.initState();
+  }
+
   void onPressedHandler(String text) {
     if (text == "=") {
       calculateSequence(displayString);
@@ -102,6 +108,34 @@ class _CalculatorState extends State<Calculator> {
     setState(() {
       displayString = "";
     });
+  }
+
+  void resetButtons() {
+    if (trollMode = true) {
+      buttons = [
+        "÷",
+        "x",
+        "(",
+        ")",
+        "7",
+        "8",
+        "9",
+        "-",
+        "4",
+        "5",
+        "6",
+        "+",
+        "1",
+        "2",
+        "3",
+        "=",
+        "0",
+        "00",
+        ".",
+        "CE",
+      ];
+    }
+    setState(() {});
   }
 
   void calculateSequence(String s) {
@@ -268,6 +302,30 @@ class _CalculatorState extends State<Calculator> {
     return "FALSE";
   }
 
+  Color? textColor;
+  Color? buttonColor;
+  bool trollMode = false;
+  void setPrefs() async {
+    final Map<String, Color> colors = {
+      'purple': Colors.purple,
+      'blue': Colors.blue,
+      'white': Colors.white,
+      'brown': Colors.brown,
+      'teal': Colors.teal,
+      'orange': Colors.orange,
+    };
+    final prefs = await SharedPreferences.getInstance();
+    textColor = colors[prefs.getString('textColor')];
+    buttonColor = colors[prefs.getString('buttonColor')];
+    try {
+      prefs.getBool('trollMode');
+      trollMode = prefs.getBool('trollMode')!;
+    } catch (e) {
+      trollMode = false;
+    }
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -338,7 +396,10 @@ class _CalculatorState extends State<Calculator> {
                 child: ElevatedButton(
                   onPressed: () => Navigator.of(context)
                       .pushNamed('/settings')
-                      .then((value) => setState(() {})),
+                      .then((value) => setState(() {
+                            setPrefs();
+                            resetButtons();
+                          })),
                   style: ElevatedButton.styleFrom(
                       backgroundColor: buttonColor,
                       padding: const EdgeInsets.all(5)),
