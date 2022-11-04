@@ -87,3 +87,4 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 chat_app/android/app/google-services.json
+.vscode/settings.json

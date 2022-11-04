@@ -116,11 +116,27 @@ class _CalculatorState extends State<Calculator> {
       });
     } else {
       newString = calculateString(s);
+      newString = fixSigFigs(newString);
       resetOnNew = true;
       setState(() {
         displayString = "$oldString = $newString";
       });
     }
+  }
+
+  String fixSigFigs(String s) {
+    for (int i = s.length - 1; i >= s.indexOf(r'\.'); i--) {
+      if (s[i] == '0') {
+        s = s.substring(0, i);
+      } else if (s[i] == '.') {
+        s = s.substring(0, i);
+        break;
+      } else {
+        break;
+      }
+    }
+
+    return s;
   }
 
   String calculateString(String s) {
@@ -210,6 +226,8 @@ class _CalculatorState extends State<Calculator> {
   String checkForErrors(String s) {
     RegExp isSymbol = RegExp(r'[÷x+]');
     RegExp threePlusSub = RegExp(r'---');
+    RegExp invalidPeriods = RegExp(
+        r'((\.\d+\.\d+[÷x+-])|([÷x+-])\d+\.\d+\.)|(([÷x+-]\.)|(^\.)|(\.$))');
     int counter = 0;
     for (int i = 0; i < s.length; i++) {
       // Check for invalid brackets
@@ -236,6 +254,10 @@ class _CalculatorState extends State<Calculator> {
 
     if (threePlusSub.hasMatch(s)) {
       return "Three or more negative signs are not allowed";
+    }
+
+    if (invalidPeriods.hasMatch(s)) {
+      return "Invalid periods";
     }
 
     if (resetOnNew) {
