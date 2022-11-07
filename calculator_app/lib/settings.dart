@@ -18,7 +18,8 @@ class _SettingsState extends State<Settings> {
 
   final Map<String, Color> colors = {
     'purple': Colors.purple,
-    'blue': Colors.blue,
+    'red': Colors.red,
+    'cyan': Colors.cyan,
     'white': Colors.white,
     'brown': Colors.brown,
     'teal': Colors.teal,
@@ -45,17 +46,15 @@ class _SettingsState extends State<Settings> {
 
   Color? textColor;
   Color? buttonColor;
-  bool trollMode = false;
+  bool? trollMode = false;
   void setPrefs() async {
     final prefs = await SharedPreferences.getInstance();
     textColor = colors[prefs.getString('textColor')];
     buttonColor = colors[prefs.getString('buttonColor')];
-    try {
-      prefs.getBool('trollMode');
-      trollMode = prefs.getBool('trollMode')!;
-    } catch (e) {
-      trollMode = false;
-    }
+    trollMode = prefs.getBool('trollMode');
+    buttonColor ??= Colors.brown;
+    textColor ??= Colors.white;
+    trollMode ??= false;
     setState(() {});
   }
 
@@ -151,7 +150,7 @@ class _SettingsState extends State<Settings> {
               backgroundColor: buttonColor,
               minimumSize: Size(50, (MediaQuery.of(context).size.height / 10)),
             ),
-            child: !trollMode
+            child: !(trollMode ??= false)
                 ? const Text("Enable Troll Mode?")
                 : const Text("Disable Troll Mode?"),
           ),
@@ -162,7 +161,7 @@ class _SettingsState extends State<Settings> {
 
   void trollModeHandler() async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setBool('trollMode', !prefs.getBool('trollMode')!);
+    prefs.setBool('trollMode', !(trollMode ??= true));
     trollMode = prefs.getBool('trollMode')!;
     setState(() {});
   }

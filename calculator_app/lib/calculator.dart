@@ -78,7 +78,7 @@ class _CalculatorState extends State<Calculator> {
     } else {
       addToString(text);
     }
-    if (trollMode) {
+    if (trollMode!) {
       buttons.shuffle();
     }
   }
@@ -198,13 +198,13 @@ class _CalculatorState extends State<Calculator> {
               s.substring(endingIndex + 1)
           : s.substring(0, startingIndex) + equation);
     } else if (s.contains("÷")) {
-      RegExp firstDiv = RegExp(r'(-?)((\d+\.)?\d+÷(-?-?)\d+(\.\d+)?)');
+      RegExp firstDiv = RegExp(r'((\d+\.)?\d+÷(-?-?)\d+(\.\d+)?)');
       return calculateString(returnAnswer('÷', firstDiv, s));
     } else if (s.contains("x")) {
-      RegExp firstMul = RegExp(r'(-?)((\d+\.)?\d+x(-?-?)\d+(\.\d+)?)');
+      RegExp firstMul = RegExp(r'((\d+\.)?\d+x(-?-?)\d+(\.\d+)?)');
       return calculateString(returnAnswer('x', firstMul, s));
     } else if (s.contains("+")) {
-      RegExp firstPlus = RegExp(r'(-?)((\d+\.)?\d+\+(-?-?)\d+(\.\d+)?)');
+      RegExp firstPlus = RegExp(r'((\d+\.)?\d+\+(-?-?)\d+(\.\d+)?)');
       return calculateString(returnAnswer('+', firstPlus, s));
     } else if (s.contains("-") && !negativeAnswer.hasMatch(s)) {
       RegExp firstSub = RegExp(r'(-?)((\d+\.)?\d+-(-?-?)\d+(\.\d+)?)');
@@ -215,6 +215,10 @@ class _CalculatorState extends State<Calculator> {
   }
 
   String returnAnswer(String operator, RegExp regex, String s) {
+    if (s.contains("+-")) {
+      s = s.replaceAll("+-", "-");
+      return calculateString(s);
+    }
     var equationMatch = regex.firstMatch(s);
     try {
       var equation = s.substring(equationMatch!.start, equationMatch.end);
@@ -253,6 +257,7 @@ class _CalculatorState extends State<Calculator> {
       print("$equation in $s = $answer");
       return answer;
     } catch (e) {
+      print(e);
       return "Error | Not Allowed";
     }
   }
@@ -261,7 +266,7 @@ class _CalculatorState extends State<Calculator> {
     RegExp isSymbol = RegExp(r'[÷x+]');
     RegExp threePlusSub = RegExp(r'---');
     RegExp invalidPeriods = RegExp(
-        r'((\.\d+\.\d+[÷x+-])|([÷x+-])\d+\.\d+\.)|(([÷x+-]\.)|(^\.)|(\.$))');
+        r'((\.\d+\.\d+[÷x+-])|([÷x+-])\d+\.\d+\.)|(([÷x+-]\.)|(^\.)|(\.$))'); // 9--9
     int counter = 0;
     for (int i = 0; i < s.length; i++) {
       // Check for invalid brackets
@@ -304,11 +309,12 @@ class _CalculatorState extends State<Calculator> {
 
   Color? textColor;
   Color? buttonColor;
-  bool trollMode = false;
+  bool? trollMode = false;
   void setPrefs() async {
     final Map<String, Color> colors = {
       'purple': Colors.purple,
-      'blue': Colors.blue,
+      'red': Colors.red,
+      'cyan': Colors.cyan,
       'white': Colors.white,
       'brown': Colors.brown,
       'teal': Colors.teal,
@@ -317,12 +323,10 @@ class _CalculatorState extends State<Calculator> {
     final prefs = await SharedPreferences.getInstance();
     textColor = colors[prefs.getString('textColor')];
     buttonColor = colors[prefs.getString('buttonColor')];
-    try {
-      prefs.getBool('trollMode');
-      trollMode = prefs.getBool('trollMode')!;
-    } catch (e) {
-      trollMode = false;
-    }
+    trollMode = prefs.getBool('trollMode');
+    buttonColor ??= Colors.brown;
+    textColor ??= Colors.white;
+    trollMode ??= false;
     setState(() {});
   }
 

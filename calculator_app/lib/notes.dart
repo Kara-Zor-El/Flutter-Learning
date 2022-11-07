@@ -145,11 +145,12 @@ class _NotesState extends State<Notes> {
 
   Color? textColor;
   Color? buttonColor;
-  bool trollMode = false;
+  bool? trollMode = false;
   void setPrefs() async {
     final Map<String, Color> colors = {
       'purple': Colors.purple,
-      'blue': Colors.blue,
+      'red': Colors.red,
+      'cyan': Colors.cyan,
       'white': Colors.white,
       'brown': Colors.brown,
       'teal': Colors.teal,
@@ -158,12 +159,10 @@ class _NotesState extends State<Notes> {
     final prefs = await SharedPreferences.getInstance();
     textColor = colors[prefs.getString('textColor')];
     buttonColor = colors[prefs.getString('buttonColor')];
-    try {
-      prefs.getBool('trollMode');
-      trollMode = prefs.getBool('trollMode')!;
-    } catch (e) {
-      trollMode = false;
-    }
+    trollMode = prefs.getBool('trollMode');
+    buttonColor ??= Colors.brown;
+    textColor ??= Colors.white;
+    trollMode ??= false;
     setState(() {});
   }
 
