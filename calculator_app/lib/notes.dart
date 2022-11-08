@@ -1,6 +1,6 @@
-import 'package:calculator_app/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'utils/colors.dart';
 
 class Notes extends StatefulWidget {
   const Notes({super.key});
@@ -112,8 +112,19 @@ class _NotesState extends State<Notes> {
     );
   }
 
+  String reverseText(String text) {
+    String reversedText = "";
+    for (int i = text.length - 1; i >= 0; i--) {
+      reversedText += text[i];
+    }
+    return reversedText;
+  }
+
   void onInputHandler() async {
     var text = myInputController.text;
+    if (trollMode ??= false) {
+      text = reverseText(text);
+    }
     notes.add(text);
     updateSharedPrefs();
     setState(() {
@@ -131,6 +142,9 @@ class _NotesState extends State<Notes> {
   }
 
   void editNote(String newText, int index) {
+    if (trollMode ??= false) {
+      newText = reverseText(newText);
+    }
     notes[index] = newText;
     updateSharedPrefs();
     setState(() {
@@ -141,29 +155,6 @@ class _NotesState extends State<Notes> {
   void updateSharedPrefs() async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setStringList("notes", notes);
-  }
-
-  Color? textColor;
-  Color? buttonColor;
-  bool? trollMode = false;
-  void setPrefs() async {
-    final Map<String, Color> colors = {
-      'purple': Colors.purple,
-      'red': Colors.red,
-      'cyan': Colors.cyan,
-      'white': Colors.white,
-      'brown': Colors.brown,
-      'teal': Colors.teal,
-      'orange': Colors.orange,
-    };
-    final prefs = await SharedPreferences.getInstance();
-    textColor = colors[prefs.getString('textColor')];
-    buttonColor = colors[prefs.getString('buttonColor')];
-    trollMode = prefs.getBool('trollMode');
-    buttonColor ??= Colors.brown;
-    textColor ??= Colors.white;
-    trollMode ??= false;
-    setState(() {});
   }
 
   Widget noteConstructor({String text = "", required int index}) {

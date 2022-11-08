@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'utils/colors.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -15,16 +16,6 @@ class _SettingsState extends State<Settings> {
     setPrefs();
     super.initState();
   }
-
-  final Map<String, Color> colors = {
-    'purple': Colors.purple,
-    'red': Colors.red,
-    'cyan': Colors.cyan,
-    'white': Colors.white,
-    'brown': Colors.brown,
-    'teal': Colors.teal,
-    'orange': Colors.orange,
-  };
 
   void _setButtonColor({String newButtonColor = 'brown'}) async {
     final prefs = await SharedPreferences.getInstance();
@@ -42,20 +33,6 @@ class _SettingsState extends State<Settings> {
     setState(() {
       textColor;
     });
-  }
-
-  Color? textColor;
-  Color? buttonColor;
-  bool? trollMode = false;
-  void setPrefs() async {
-    final prefs = await SharedPreferences.getInstance();
-    textColor = colors[prefs.getString('textColor')];
-    buttonColor = colors[prefs.getString('buttonColor')];
-    trollMode = prefs.getBool('trollMode');
-    buttonColor ??= Colors.brown;
-    textColor ??= Colors.white;
-    trollMode ??= false;
-    setState(() {});
   }
 
   @override

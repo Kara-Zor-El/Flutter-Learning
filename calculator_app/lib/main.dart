@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import './calculator.dart';
 import './settings.dart';
-import 'notes.dart';
+import './converter.dart';
+import './notes.dart';
+import './utils/colors.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
       routes: <String, WidgetBuilder>{
         '/settings': (BuildContext context) => const Settings(),
         '/notes': (BuildContext context) => const Notes(),
+        '/converter': (BuildContext context) => const Converter(),
       },
     );
   }
@@ -35,6 +37,7 @@ class MyCalculatorApp extends StatefulWidget {
 class _MyCalculatorAppState extends State<MyCalculatorApp> {
   @override
   void initState() {
+    setPrefs();
     super.initState();
   }
 

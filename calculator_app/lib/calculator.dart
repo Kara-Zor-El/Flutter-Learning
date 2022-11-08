@@ -307,19 +307,19 @@ class _CalculatorState extends State<Calculator> {
     return "FALSE";
   }
 
+  final Map<String, Color> colors = {
+    'purple': Colors.purple,
+    'red': Colors.red,
+    'cyan': Colors.cyan,
+    'white': Colors.white,
+    'brown': Colors.brown,
+    'teal': Colors.teal,
+    'orange': Colors.orange,
+  };
   Color? textColor;
   Color? buttonColor;
   bool? trollMode = false;
   void setPrefs() async {
-    final Map<String, Color> colors = {
-      'purple': Colors.purple,
-      'red': Colors.red,
-      'cyan': Colors.cyan,
-      'white': Colors.white,
-      'brown': Colors.brown,
-      'teal': Colors.teal,
-      'orange': Colors.orange,
-    };
     final prefs = await SharedPreferences.getInstance();
     textColor = colors[prefs.getString('textColor')];
     buttonColor = colors[prefs.getString('buttonColor')];
@@ -391,6 +391,26 @@ class _CalculatorState extends State<Calculator> {
                         Icons.notes_rounded,
                       ),
                       Text("Notes", style: TextStyle(color: textColor)),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(width: 15),
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: () => Navigator.of(context)
+                      .pushNamed('/converter')
+                      .then((value) => setState(() {})),
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: buttonColor,
+                      padding: const EdgeInsets.all(5)),
+                  child: Column(
+                    children: [
+                      Icon(
+                        color: textColor,
+                        Icons.av_timer,
+                      ),
+                      Text("Converter", style: TextStyle(color: textColor)),
                     ],
                   ),
                 ),
