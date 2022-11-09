@@ -87,8 +87,8 @@ class _NotesState extends State<Notes> {
                           filled: true,
                           border: OutlineInputBorder(),
                           hintText: 'Enter a note',
-                          contentPadding: EdgeInsets.only(
-                              left: 14.0, bottom: 8.0, top: 8.0),
+                          contentPadding:
+                              EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                         ),
                         controller: myInputController,
                       ),
