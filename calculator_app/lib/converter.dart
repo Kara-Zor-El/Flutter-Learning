@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'utils/colors.dart';
+import 'utils/converter_units.dart';
 
 class Converter extends StatefulWidget {
   const Converter({super.key});
@@ -9,6 +10,7 @@ class Converter extends StatefulWidget {
 }
 
 class _ConverterState extends State<Converter> {
+  String displayText = "Hello";
   @override
   void initState() {
     setPrefs();
@@ -16,6 +18,53 @@ class _ConverterState extends State<Converter> {
   }
 
   @override
+  String myGroupValue = "Tera";
+  Widget myConvertDialogBuilder({String type = "meter"}) {
+    myGroupValue = "Tera";
+    return StatefulBuilder(
+      builder: ((context, setState) {
+        return FractionallySizedBox(
+          alignment: Alignment.center,
+          heightFactor: 0.5,
+          child: SingleChildScrollView(
+            physics: const ScrollPhysics(),
+            child: Column(
+              children: [
+                for (MapEntry<String, double> item in metricSystem.entries)
+                  RadioListTile(
+                    title: Text((item.key == "")
+                        ? type[0].toUpperCase() + type.substring(1)
+                        : item.key + type),
+                    value: item.key,
+                    groupValue: myGroupValue,
+                    onChanged: (value) {
+                      setState(() {
+                        myGroupValue = item.key;
+                      });
+                    },
+                  )
+              ],
+            ),
+          ),
+        );
+      }),
+    );
+  }
+
+  void onEnter(String inputText) {
+    var getUnit = RegExp(r'([a-zA-Z]+)');
+    if (!getUnit.hasMatch(inputText)) {
+      setState(() {
+        displayText = "Invalid Input";
+      });
+    } else {
+      var unitMatch = getUnit.firstMatch(inputText);
+      var unit = inputText.substring(unitMatch!.start, unitMatch.end);
+      print(unit);
+      myShowDialog();
+    }
+  }
+
   Widget build(BuildContext context) {
     final myInputController = TextEditingController();
     return Scaffold(
@@ -28,6 +77,23 @@ class _ConverterState extends State<Converter> {
       ),
       body: Column(
         children: [
+          Container(
+            alignment: Alignment.centerRight,
+            margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              controller: _scrollController,
+              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+              child: Text(
+                style: TextStyle(
+                  fontSize: 25,
+                  color: textColor,
+                  decoration: TextDecoration.none,
+                ),
+                displayText,
+              ),
+            ),
+          ),
           const Spacer(),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -48,36 +114,7 @@ class _ConverterState extends State<Converter> {
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: () => showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      title: Text("What would you like to convert to?",
-                          style: TextStyle(color: textColor, fontSize: 18)),
-                      content: FractionallySizedBox(
-                        alignment: Alignment.center,
-                        heightFactor: 0.5,
-                        child: Column(
-                          children: [
-                            const Spacer(),
-                            Container(
-                              height: 50,
-                              width: MediaQuery.of(context).size.width,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  color: Colors.black),
-                              child: const Center(
-                                child: Text(
-                                  "Select Unit Being Converted To",
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      backgroundColor: buttonColor,
-                    ),
-                  ),
+                  onPressed: () => onEnter(myInputController.text),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.black,
                     padding: const EdgeInsets.symmetric(vertical: 12),
@@ -87,6 +124,48 @@ class _ConverterState extends State<Converter> {
               ],
             ),
           )
+        ],
+      ),
+    );
+  }
+
+  final ScrollController _scrollController = ScrollController();
+  _scrollToRight() {
+    _scrollController.animateTo(
+      _scrollController.position.maxScrollExtent,
+      duration: const Duration(milliseconds: 1),
+      curve: Curves.easeOut,
+    );
+  }
+
+  void myShowDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("What would you like to convert to?",
+            style: TextStyle(color: textColor, fontSize: 18)),
+        content: myConvertDialogBuilder(),
+        contentPadding: const EdgeInsets.only(top: 20),
+        backgroundColor: buttonColor,
+        actions: [
+          TextButton(
+            child: Text(
+              'Cancel',
+              style: TextStyle(color: textColor),
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          TextButton(
+            child: Text(
+              'Confirm!',
+              style: TextStyle(color: textColor),
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
         ],
       ),
     );

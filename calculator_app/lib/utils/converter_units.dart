@@ -1,0 +1,15 @@
+final Map<String, double> metricSystem = {
+  "Tera": 1000000000000,
+  "Giga": 1000000000,
+  "Mega": 1000000,
+  "Kilo": 1000,
+  "Hecto": 100,
+  "Deca": 10,
+  "": 1,
+  "Deci": .1,
+  "Centi": .01,
+  "Milli": .001,
+  "Micro": .000001,
+  "Nano": .000000001,
+  "Pico": .000000000001,
+};
