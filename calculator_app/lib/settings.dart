@@ -12,7 +12,6 @@ class Settings extends StatefulWidget {
 class _SettingsState extends State<Settings> {
   @override
   void initState() {
-    trollMode = false;
     setPrefs();
     super.initState();
   }
@@ -65,20 +64,13 @@ class _SettingsState extends State<Settings> {
           ),
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.9,
+            height:
+                MediaQuery.of(context).size.width * 0.9 / colors.entries.length,
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 for (var element in colors.entries)
-                  Expanded(
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: element.value,
-                        minimumSize:
-                            Size(50, (MediaQuery.of(context).size.height / 8)),
-                      ),
-                      child: const Text(''),
-                      onPressed: () => _setTextColor(newTextColor: element.key),
-                    ),
-                  )
+                  buildColorButton(element, false)
               ],
             ),
           ),
@@ -102,21 +94,13 @@ class _SettingsState extends State<Settings> {
             padding: const EdgeInsets.only(bottom: 50),
             child: SizedBox(
               width: MediaQuery.of(context).size.width * 0.9,
+              height: MediaQuery.of(context).size.width *
+                  0.9 /
+                  colors.entries.length,
               child: Row(
                 children: [
                   for (var element in colors.entries)
-                    Expanded(
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: element.value,
-                          minimumSize: Size(
-                              50, (MediaQuery.of(context).size.height / 8)),
-                        ),
-                        child: const Text(''),
-                        onPressed: () =>
-                            _setButtonColor(newButtonColor: element.key),
-                      ),
-                    )
+                    buildColorButton(element, true)
                 ],
               ),
             ),
@@ -124,14 +108,45 @@ class _SettingsState extends State<Settings> {
           ElevatedButton(
             onPressed: trollModeHandler,
             style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30)),
               backgroundColor: buttonColor,
-              minimumSize: Size(50, (MediaQuery.of(context).size.height / 10)),
+              fixedSize: Size(
+                  MediaQuery.of(context).size.width * 0.9,
+                  (MediaQuery.of(context).size.width / colors.entries.length) *
+                      1.5),
             ),
             child: !(trollMode ??= false)
-                ? const Text("Enable Troll Mode?")
-                : const Text("Disable Troll Mode?"),
+                ? const Text(
+                    "Enable Troll Mode?",
+                    style: TextStyle(fontSize: 15),
+                  )
+                : const Text(
+                    "Disable Troll Mode?",
+                    style: TextStyle(fontSize: 15),
+                  ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget buildColorButton(
+      MapEntry<String, Color> element, bool isChangesButtonColor) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 2),
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            shape: const CircleBorder(),
+            backgroundColor: element.value,
+            minimumSize: Size(50, (MediaQuery.of(context).size.height / 8)),
+          ),
+          child: null,
+          onPressed: () => (isChangesButtonColor)
+              ? _setButtonColor(newButtonColor: element.key)
+              : _setTextColor(newTextColor: element.key),
+        ),
       ),
     );
   }

@@ -10,7 +10,7 @@ class Converter extends StatefulWidget {
 }
 
 class _ConverterState extends State<Converter> {
-  String displayText = "Hello";
+  String displayText = "";
   @override
   void initState() {
     setPrefs();
@@ -18,7 +18,7 @@ class _ConverterState extends State<Converter> {
   }
 
   @override
-  String myGroupValue = "Tera";
+  String myGroupValue = "meter";
   Widget myConvertDialogBuilder({String type = "meter"}) {
     myGroupValue = "Tera";
     return StatefulBuilder(
@@ -60,7 +60,8 @@ class _ConverterState extends State<Converter> {
     } else {
       var unitMatch = getUnit.firstMatch(inputText);
       var unit = inputText.substring(unitMatch!.start, unitMatch.end);
-      print(unit);
+      unit.toLowerCase();
+      if (meterAliases.contains(unit)) {}
       myShowDialog();
     }
   }

@@ -147,6 +147,7 @@ class _CalculatorState extends State<Calculator> {
     if (error != "FALSE") {
       setState(() {
         displayString = error;
+        resetOnNew = true;
       });
     } else {
       newString = calculateString(s);
@@ -159,14 +160,16 @@ class _CalculatorState extends State<Calculator> {
   }
 
   String fixSigFigs(String s) {
-    for (int i = s.length - 1; i >= s.indexOf(r'\.'); i--) {
-      if (s[i] == '0') {
-        s = s.substring(0, i);
-      } else if (s[i] == '.') {
-        s = s.substring(0, i);
-        break;
-      } else {
-        break;
+    if (s.contains('.')) {
+      for (int i = s.length - 1; i >= s.indexOf(r'\.'); i--) {
+        if (s[i] == '0') {
+          s = s.substring(0, i);
+        } else if (s[i] == '.') {
+          s = s.substring(0, i);
+          break;
+        } else {
+          break;
+        }
       }
     }
 
@@ -308,13 +311,14 @@ class _CalculatorState extends State<Calculator> {
   }
 
   final Map<String, Color> colors = {
-    'purple': Colors.purple,
+    'pink': Colors.pink,
     'red': Colors.red,
-    'cyan': Colors.cyan,
-    'white': Colors.white,
-    'brown': Colors.brown,
-    'teal': Colors.teal,
     'orange': Colors.orange,
+    'yellow': Colors.yellow,
+    'blue': Colors.blue,
+    'green': Colors.green,
+    'brown': Colors.brown,
+    'white': Colors.white,
   };
   Color? textColor;
   Color? buttonColor;
@@ -371,6 +375,7 @@ class _CalculatorState extends State<Calculator> {
                 ]),
           ),
         ),
+        const Spacer(),
         FractionallySizedBox(
           widthFactor: 0.9,
           child: Row(
@@ -395,26 +400,26 @@ class _CalculatorState extends State<Calculator> {
                   ),
                 ),
               ),
-              const SizedBox(width: 15),
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: () => Navigator.of(context)
-                      .pushNamed('/converter')
-                      .then((value) => setState(() {})),
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: buttonColor,
-                      padding: const EdgeInsets.all(5)),
-                  child: Column(
-                    children: [
-                      Icon(
-                        color: textColor,
-                        Icons.av_timer,
-                      ),
-                      Text("Converter", style: TextStyle(color: textColor)),
-                    ],
-                  ),
-                ),
-              ),
+              // const SizedBox(width: 15),
+              // Expanded(
+              //   child: ElevatedButton(
+              //     onPressed: () => Navigator.of(context)
+              //         .pushNamed('/converter')
+              //         .then((value) => setState(() {})),
+              //     style: ElevatedButton.styleFrom(
+              //         backgroundColor: buttonColor,
+              //         padding: const EdgeInsets.all(5)),
+              //     child: Column(
+              //       children: [
+              //         Icon(
+              //           color: textColor,
+              //           Icons.av_timer,
+              //         ),
+              //         Text("Converter", style: TextStyle(color: textColor)),
+              //       ],
+              //     ),
+              //   ),
+              // ),
               const SizedBox(width: 15),
               Expanded(
                 child: ElevatedButton(

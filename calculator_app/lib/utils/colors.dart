@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final Map<String, Color> colors = {
-  'purple': Colors.purple,
+  'pink': Colors.pink,
   'red': Colors.red,
-  'cyan': Colors.cyan,
-  'white': Colors.white,
-  'brown': Colors.brown,
-  'teal': Colors.teal,
   'orange': Colors.orange,
+  'yellow': Colors.yellow,
+  'blue': Colors.blue,
+  'green': Colors.green,
+  'brown': Colors.brown,
+  'white': Colors.white,
 };
 
 Color? textColor;
