@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "933911998913",
+    "project_id": "mynotes-parsa",
+    "storage_bucket": "mynotes-parsa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:933911998913:android:68c77ec3e6dda5ecc37f40",
+        "android_client_info": {
+          "package_name": "com.example.mynotes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "933911998913-5es9hbdgb68bj4ur2mtk5mdcc94p935q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDewTLITUDvhK52xUQbAezmFN5307iwuY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "933911998913-5es9hbdgb68bj4ur2mtk5mdcc94p935q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
