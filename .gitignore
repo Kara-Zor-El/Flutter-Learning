@@ -88,3 +88,4 @@ app.*.map.json
 /android/app/release
 chat_app/android/app/google-services.json
 .vscode/settings.json
+mynotes/lib/firebase_options.dart
